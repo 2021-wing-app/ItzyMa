@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ public class ThirdFragment extends Fragment {
 
     EditText editText1, editText2;
     Button calendarButton, addHomework;
+    CheckBox check1, check2, check3;
 
     Calendar calendar = Calendar.getInstance();
     // default 값은 오늘 날짜로 설정
@@ -59,6 +61,42 @@ public class ThirdFragment extends Fragment {
             }
         });
 
+        check1 = rootView.findViewById(R.id.check1);
+        check1.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                    // TODO : CheckBox is checked.
+                } else {
+                    // TODO : CheckBox is unchecked.
+                }
+            }
+        });
+
+        check2 = rootView.findViewById(R.id.check2);
+        check2.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                    // TODO : CheckBox is checked.
+                } else {
+                    // TODO : CheckBox is unchecked.
+                }
+            }
+        });
+
+        check3 = rootView.findViewById(R.id.check3);
+        check3.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                    // TODO : CheckBox is checked.
+                } else {
+                    // TODO : CheckBox is unchecked.
+                }
+            }
+        });
+
         addHomework.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +111,8 @@ public class ThirdFragment extends Fragment {
                 }
                 else {
                     Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_LONG).show();
+                    Bundle bundle = new Bundle();  // 번들으로 값 전달
+                    bundle.putString("subjectName", editText1.getText().toString()); // bundle에 넘길 값 저장
                     MainActivity activity = (MainActivity)getActivity();
                     activity.changeFragment(1);
                 }

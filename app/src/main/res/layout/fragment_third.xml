@@ -150,29 +150,30 @@
             android:text="알림 시간을 입력해주세요"
             android:textSize="20sp" />
 
-        <RadioButton
-            android:id="@+id/r_btn1"
+        <CheckBox
+            android:id="@+id/check1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="50dp"
             android:text="15분 전" />
 
-        <RadioButton
-            android:id="@+id/r_btn2"
+        <CheckBox
+            android:id="@+id/check2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="45dp"
             android:text="1시간 전" />
 
-        <RadioButton
-            android:id="@+id/r_btn3"
+        <CheckBox
+            android:id="@+id/check3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
             android:text="하루 전" />
+
     </RelativeLayout>
 
     <Button
