@@ -24,6 +24,7 @@ public class ThirdFragment extends Fragment {
     EditText editText1, editText2;
     Button calendarButton, addHomework;
     CheckBox check1, check2, check3;
+    int checkBoxChecker = 0;
 
     Calendar calendar = Calendar.getInstance();
     // default 값은 오늘 날짜로 설정
@@ -67,6 +68,7 @@ public class ThirdFragment extends Fragment {
             public void onClick(View v) {
                 if (((CheckBox)v).isChecked()) {
                     // TODO : CheckBox is checked.
+                    checkBoxChecker = 1;
                 } else {
                     // TODO : CheckBox is unchecked.
                 }
@@ -79,6 +81,7 @@ public class ThirdFragment extends Fragment {
             public void onClick(View v) {
                 if (((CheckBox)v).isChecked()) {
                     // TODO : CheckBox is checked.
+                    checkBoxChecker = 1;
                 } else {
                     // TODO : CheckBox is unchecked.
                 }
@@ -91,6 +94,7 @@ public class ThirdFragment extends Fragment {
             public void onClick(View v) {
                 if (((CheckBox)v).isChecked()) {
                     // TODO : CheckBox is checked.
+                    checkBoxChecker = 1;
                 } else {
                     // TODO : CheckBox is unchecked.
                 }
@@ -111,8 +115,10 @@ public class ThirdFragment extends Fragment {
                 }
                 else {
                     Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_LONG).show();
-                    Bundle bundle = new Bundle();  // 번들으로 값 전달
+                    Bundle bundle = new Bundle();  // bundle으로 값 전달
                     bundle.putString("subjectName", editText1.getText().toString()); // bundle에 넘길 값 저장
+                    SecondFragment fragment2 = new SecondFragment();  // SecondFragment 선언
+                    fragment2.setArguments(bundle);  // bundle을 SecondFragment로 보낼 준비
                     MainActivity activity = (MainActivity)getActivity();
                     activity.changeFragment(1);
                 }

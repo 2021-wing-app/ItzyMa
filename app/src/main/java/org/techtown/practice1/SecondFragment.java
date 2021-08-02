@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class SecondFragment extends Fragment {
+    View view;
     TextView textView1, textView2, textView3;
+    String deadline, subjectName, homeworkName;
     Button addButton;
 
     @Override
@@ -26,10 +28,17 @@ public class SecondFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity activity = (MainActivity)getActivity();
+                MainActivity activity = (MainActivity) getActivity();
                 activity.changeFragment(2);
             }
         });
+
+        textView2 = view.findViewById(R.id.textView2);
+        if (getArguments() != null) {
+            subjectName = getArguments().getString("subjectName");  // ThirdFragment에서 받아온 값 넣기
+            textView2.setText(subjectName);
+        }
+
         return rootView;
     }
 }
