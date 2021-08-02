@@ -1,10 +1,9 @@
 package org.techtown.practice1;
 
-import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class SecondFragment extends Fragment {
-    View view;
     TextView textView1, textView2, textView3;
     String deadline, subjectName, homeworkName;
     Button addButton;
@@ -21,6 +19,7 @@ public class SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_second, container, false);
 
@@ -28,15 +27,28 @@ public class SecondFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity activity = (MainActivity) getActivity();
-                activity.changeFragment(2);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                ThirdFragment fragment3 = new ThirdFragment();
+                transaction.replace(R.id.container, fragment3);
+                transaction.commit();
             }
         });
 
-        textView2 = view.findViewById(R.id.textView2);
-        if (getArguments() != null) {
-            subjectName = getArguments().getString("subjectName");  // ThirdFragment에서 받아온 값 넣기
+        // 정보 받기
+        textView1 = rootView.findViewById(R.id.textView1);
+        textView2 = rootView.findViewById(R.id.textView2);
+        textView3 = rootView.findViewById(R.id.textView3);
+
+        Bundle bundle = getArguments(); // getArguments() 메소드로 번들 받기
+        if (bundle != null) {
+            deadline = bundle.getString("deadline");  // ThirdFragment에서 받아온 값 넣기
+            textView1.setText(deadline);
+
+            subjectName = bundle.getString("subjectName");
             textView2.setText(subjectName);
+
+            homeworkName = bundle.getString("homeworkName");
+            textView3.setText(homeworkName);
         }
 
         return rootView;

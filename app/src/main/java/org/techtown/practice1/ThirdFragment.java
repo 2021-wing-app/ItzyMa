@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,6 +108,7 @@ public class ThirdFragment extends Fragment {
             public void onClick(View v) {
                 String subjectName = editText1.getText().toString();
                 String homeworkName = editText2.getText().toString();
+                String deadline = calendarButton.getText().toString();
 
                 if (subjectName.length() == 0) {
                     Toast.makeText(getContext(), "과목명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
@@ -115,13 +118,19 @@ public class ThirdFragment extends Fragment {
                 }
                 else {
                     Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_LONG).show();
-                    Bundle bundle = new Bundle();  // bundle으로 값 전달
-                    bundle.putString("subjectName", editText1.getText().toString()); // bundle에 넘길 값 저장
                     SecondFragment fragment2 = new SecondFragment();  // SecondFragment 선언
+
+                    // 정보 전달
+                    Bundle bundle = new Bundle();  // bundle으로 값 전달
+                    bundle.putString("subjectName", subjectName); // bundle에 넘길 값 저장
+                    bundle.putString("homeworkName", homeworkName);
+                    bundle.putString("deadline", deadline);
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragment2.setArguments(bundle);  // bundle을 SecondFragment로 보낼 준비
-                    MainActivity activity = (MainActivity)getActivity();
-                    activity.changeFragment(1);
+                    transaction.replace(R.id.container, fragment2);
+                    transaction.commit();
                 }
+
             }
         });
         return rootView;

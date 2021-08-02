@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class FirstFragment extends Fragment {
 
@@ -21,11 +22,12 @@ public class FirstFragment extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity activity = (MainActivity)getActivity();
-                activity.changeFragment(1);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                SecondFragment fragment2 = new SecondFragment();
+                transaction.replace(R.id.container, fragment2);
+                transaction.commit();
             }
         });
-
         return rootView;
     }
 }
