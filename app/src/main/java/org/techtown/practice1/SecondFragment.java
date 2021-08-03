@@ -50,7 +50,6 @@ public class SecondFragment extends Fragment {
             homeworkName = bundle.getString("homeworkName");
             textView3.setText(homeworkName);
         }
-
         return rootView;
     }
 }
