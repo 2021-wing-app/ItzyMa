@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+<<<<<<< HEAD
+=======
+#AndroidStudio #Kotlin #Windows
+>>>>>>> fedd862 (Inseon First Commit)
