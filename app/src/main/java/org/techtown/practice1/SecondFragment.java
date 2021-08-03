@@ -42,10 +42,10 @@ public class SecondFragment extends Fragment {
         Bundle bundle = getArguments(); // getArguments() 메소드로 번들 받기
         if (bundle != null) {
             deadline = bundle.getString("deadline");  // ThirdFragment에서 받아온 값 넣기
-            textView1.setText(deadline);
+            textView1.setText("|" + deadline + " 까지|");
 
             subjectName = bundle.getString("subjectName");
-            textView2.setText(subjectName);
+            textView2.setText("|" + subjectName + "|");
 
             homeworkName = bundle.getString("homeworkName");
             textView3.setText(homeworkName);
