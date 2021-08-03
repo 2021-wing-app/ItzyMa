@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment3"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -114,17 +113,32 @@
 
         <Button
             android:id="@+id/calendarButton"
-            android:layout_width="212dp"
+            android:layout_width="126dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="11dp"
             android:layout_marginLeft="11dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginBottom="2dp"
             android:text="달력"
             android:textSize="18sp"
             app:backgroundTint="@color/design_default_color_error" />
+
+        <Button
+            android:id="@+id/clockButton"
+            android:layout_width="126dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="26dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginBottom="2dp"
+            android:layout_toEndOf="@+id/calendarButton"
+            android:layout_toRightOf="@+id/calendarButton"
+            android:text="시간"
+            android:textSize="18sp"
+            app:backgroundTint="@color/design_default_color_secondary" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -190,18 +204,3 @@
         app:backgroundTint="@color/purple_500" />
 
 </RelativeLayout>
-=======
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ThirdFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
->>>>>>> fedd862 (Inseon First Commit)
