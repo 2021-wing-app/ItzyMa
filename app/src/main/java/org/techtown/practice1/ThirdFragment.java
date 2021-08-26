@@ -1,11 +1,9 @@
 package org.techtown.practice1;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +11,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,9 +25,9 @@ import java.util.Locale;
 public class ThirdFragment extends Fragment {
 
     EditText editText1, editText2;
-    Button calendarButton, addHomework;
+    Button calendarButton, addHomework, clockButton;
     CheckBox check1, check2, check3;
-    int checkBoxChecker = 0;
+    int checkBoxChecker = 0, alarmHour = 0, alarmMinute = 0;
 
     Calendar calendar = Calendar.getInstance();
     // default 값은 오늘 날짜로 설정
@@ -51,6 +52,7 @@ public class ThirdFragment extends Fragment {
         editText2 = rootView.findViewById(R.id.editText2);
         calendarButton = rootView.findViewById(R.id.calendarButton);
         addHomework = rootView.findViewById(R.id.addHomework);
+        clockButton = rootView.findViewById(R.id.clockButton);
 
         Date currentTime = Calendar.getInstance().getTime();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -61,6 +63,20 @@ public class ThirdFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 new DatePickerDialog(getContext(), setDate, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+        clockButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), android.R.style.Theme_Holo_Light_Dialog,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                            }
+                        }, alarmHour, alarmMinute, false);
+                timePickerDialog.show();
             }
         });
 
@@ -118,7 +134,7 @@ public class ThirdFragment extends Fragment {
                 }
                 else {
                     Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_LONG).show();
-                    SecondFragment fragment2 = new SecondFragment();  // SecondFragment 선언
+                    org.techtown.practice1.SecondFragment fragment2 = new org.techtown.practice1.SecondFragment();  // SecondFragment 선언
 
                     // 정보 전달
                     Bundle bundle = new Bundle();  // bundle으로 값 전달
@@ -130,7 +146,6 @@ public class ThirdFragment extends Fragment {
                     transaction.replace(R.id.container, fragment2);
                     transaction.commit();
                 }
-
             }
         });
         return rootView;
@@ -139,7 +154,7 @@ public class ThirdFragment extends Fragment {
     public void changeDateFormat() {
         String format = "YYYY/MM/dd";
         SimpleDateFormat simpleDateFormat = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             simpleDateFormat = new SimpleDateFormat(format, Locale.KOREA);
         }
         calendarButton.setText(simpleDateFormat.format(calendar.getTime()));
