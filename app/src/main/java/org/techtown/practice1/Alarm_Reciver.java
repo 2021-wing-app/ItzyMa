@@ -1,4 +1,4 @@
-package org.techtown.alarmindependent;
+package org.techtown.practice1;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,11 +18,11 @@ public class Alarm_Reciver extends BroadcastReceiver {
         long time = intent.getExtras().getLong("time");
 
         //AlarmService로 보내는 intent
-        Intent br_intent=new Intent(context,AlarmService.class);
+        Intent br_intent=new Intent(context, AlarmService.class);
 
         br_intent.putExtra("time", time);
 
-        if(Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             this.context.startForegroundService(br_intent);
         }else {
             this.context.startService(br_intent);
