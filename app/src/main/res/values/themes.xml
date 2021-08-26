@@ -1,10 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-<<<<<<< HEAD
+
     <style name="Theme.Practice1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-=======
-    <style name="Theme.Practice1" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
->>>>>>> fedd862 (Inseon First Commit)
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -16,10 +13,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-<<<<<<< HEAD
         <item name="colorPrimaryDark">@color/purple_200</item>
         <item name="colorAccent">@color/light_green</item>
-=======
->>>>>>> fedd862 (Inseon First Commit)
+
     </style>
 </resources>
