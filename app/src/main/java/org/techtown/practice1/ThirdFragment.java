@@ -2,8 +2,10 @@ package org.techtown.practice1;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +25,31 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ThirdFragment extends Fragment {
+    private static final String TAG = "ThirdFragment";
+
+    Context context;
 
     EditText editText1, editText2;
     Button calendarButton, addHomework, clockButton;
     CheckBox check1, check2, check3;
     int checkBoxChecker = 0, alarmHour = 0, alarmMinute = 0;
+
+    Homework item;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        if (context != null) {
+            context = null;
+        }
+    }
 
     Calendar calendar = Calendar.getInstance();
     // default 값은 오늘 날짜로 설정
@@ -119,6 +141,7 @@ public class ThirdFragment extends Fragment {
             }
         });
 
+        // 과제 추가 버튼
         addHomework.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +159,17 @@ public class ThirdFragment extends Fragment {
                     Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_LONG).show();
                     org.techtown.practice1.SecondFragment fragment2 = new org.techtown.practice1.SecondFragment();  // SecondFragment 선언
 
+                    // 데이터 베이스에 레코드 추가
+                    String sql = "insert into " + HomeworkDatabase.TABLE_NOTE +
+                            "(DEADLINE, SUBJECTNAME, HOMEWORKNAME) values(" +
+                            "'"+ deadline + "', " +
+                            "'"+ subjectName + "', " +
+                            "'"+ homeworkName + "')";
+                    Log.d(TAG, "sql : " + sql);
+                    HomeworkDatabase database = HomeworkDatabase.getInstance(context);
+                    database.execSQL(sql);
+
+                    /*
                     // 정보 전달
                     Bundle bundle = new Bundle();  // bundle으로 값 전달
                     bundle.putString("subjectName", subjectName); // bundle에 넘길 값 저장
@@ -145,6 +179,8 @@ public class ThirdFragment extends Fragment {
                     fragment2.setArguments(bundle);  // bundle을 SecondFragment로 보낼 준비
                     transaction.replace(R.id.container, fragment2);
                     transaction.commit();
+
+                     */
                 }
             }
         });
@@ -158,5 +194,10 @@ public class ThirdFragment extends Fragment {
             simpleDateFormat = new SimpleDateFormat(format, Locale.KOREA);
         }
         calendarButton.setText(simpleDateFormat.format(calendar.getTime()));
+    }
+
+
+    public static void setItem(Homework item) {
+        this.item = item;
     }
 }

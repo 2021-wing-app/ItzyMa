@@ -2,6 +2,7 @@ package org.techtown.practice1;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SecondFragment extends Fragment {
+    private static final String TAG = "SecondFragment";
+
     String text1, text2, text3;
     String deadline, subjectName, homeworkName;
     Button addButton;
@@ -20,26 +23,43 @@ public class SecondFragment extends Fragment {
     RecyclerView recyclerView;
 
     Context context;
+    OnTabItemSelectedListener listener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         this.context = context;
+
+        if (context instanceof OnTabItemSelectedListener) {
+            listener = (OnTabItemSelectedListener) context;
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-    }
 
+        if (context != null) {
+            context = null;
+            listener = null;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_second, container, false);
+
+        initUI(rootView);
+
+        // 데이터 로딩
+        // loadNoteListData();
+
+        return rootView;
+    }
+
+    private void initUI(ViewGroup rootView) {
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
@@ -61,23 +81,20 @@ public class SecondFragment extends Fragment {
         adapter = new HomeworkAdapter();
         recyclerView.setAdapter(adapter); // recyclerView에 어댑터 설정
 
-        adapter.addItem(new Homework("1", "1", "1"));
-        adapter.addItem(new Homework("2", "2", "2"));
+        adapter.setOnItemClickListener(new OnHomeworkItemClickListener() {
+            @Override
+            public void onItemClick(HomeworkAdapter.ViewHolder holder, View view, int position) {
+                Homework item = adapter.getItem(position);
 
-        Bundle bundle = getArguments(); // getArguments() 메소드로 번들 받기
-        if (bundle != null) {
-            // ThirdFragment에서 받아온 값 넣기
-            deadline = bundle.getString("deadline");
-            text1 = "|" + deadline + " 까지|";
+                Log.d(TAG, "아이템 선택됨 : " + item.get_id());
 
-            subjectName = bundle.getString("subjectName");
-            text2 = "|" + subjectName + "|";
+                listener.showThirdFragment(item);
 
-            homeworkName = bundle.getString("homeworkName");
-            text3 = homeworkName;
-            adapter.addItem(new Homework(text1, text2, text3));
-            adapter.notifyDataSetChanged();
-        }
-        return rootView;
+            }
+        });
     }
+
+    /**
+     * 리스트 데이터 로딩
+     */
 }

@@ -68,7 +68,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="41dp"
+            android:layout_marginTop="40dp"
             android:ems="10"
             android:inputType="textPersonName" />
 

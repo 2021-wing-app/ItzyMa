@@ -10,16 +10,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
 
 import org.techtown.practice1.Alarm_Reciver;
 
 import java.util.Calendar;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements OnTabItemSelectedListener {
 
     BroadcastReceiver br;
     PendingIntent pending_intent;
     Context context;
+
+    FirstFragment firstFragment;
+    SecondFragment secondFragment;
+    ThirdFragment thirdFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,5 +62,20 @@ public class MainActivity extends FragmentActivity {
         FirstFragment fragment1 = new FirstFragment();
         transaction.replace(R.id.container, fragment1);
         transaction.commit();
+    }
+
+    @Override
+    public void onTabSelected(int position) {
+
+    }
+    @Override
+    public void showThirdFragment(Homework item) {
+
+        thirdFragment = new ThirdFragment();
+        ThirdFragment.setItem(item);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, thirdFragment).commit();
+
     }
 }
