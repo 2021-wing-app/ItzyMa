@@ -36,6 +36,7 @@ public class ThirdFragment extends Fragment {
     Button calendarButton, addHomework, clockButton;
     CheckBox check1, check2, check3;
     int checkBoxChecker = 0, alarmHour = 0, alarmMinute = 0;
+    OnDatabaseCallback onDatabaseCallback;
 
     Homework item;
 
@@ -43,6 +44,8 @@ public class ThirdFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+
+        onDatabaseCallback = (OnDatabaseCallback) getActivity();
 
         if (context instanceof OnTabItemSelectedListener) {
             listener = (OnTabItemSelectedListener) context;
@@ -171,10 +174,13 @@ public class ThirdFragment extends Fragment {
                 }
                 else {
                     Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_LONG).show();
-                    org.techtown.practice1.SecondFragment fragment2 = new org.techtown.practice1.SecondFragment();  // SecondFragment 선언
+                    //org.techtown.practice1.SecondFragment fragment2 = new org.techtown.practice1.SecondFragment();  // SecondFragment 선언
 
-                    // 데이터 베이스에 레코드 추가
-                    String sql = "insert into " + HomeworkDatabase.TABLE_NOTE +
+                    // 데이터 베이스에 레코드 삽입
+                    onDatabaseCallback.insert(deadline, subjectName, homeworkName);
+
+                    /*
+                    String sql = "insert into " + HomeworkDatabase.TABLE_HOMEWORK +
                             "(DEADLINE, SUBJECTNAME, HOMEWORKNAME) values(" +
                             "'"+ deadline + "', " +
                             "'"+ subjectName + "', " +
@@ -183,10 +189,12 @@ public class ThirdFragment extends Fragment {
                     HomeworkDatabase database = HomeworkDatabase.getInstance(context);
                     database.execSQL(sql);
 
+                     */
+
                     // 화면 전환
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.container, fragment2);
-                    transaction.commit();
+                    if (listener != null) {
+                        listener.onTabSelected(1);
+                    }
                 }
             }
         });

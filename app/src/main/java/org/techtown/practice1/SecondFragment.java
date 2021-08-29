@@ -19,11 +19,11 @@ import java.util.ArrayList;
 public class SecondFragment extends Fragment {
     private static final String TAG = "SecondFragment";
 
-    String text1, text2, text3;
-    String deadline, subjectName, homeworkName;
     Button addButton;
     HomeworkAdapter adapter;
     RecyclerView recyclerView;
+    ArrayList<Homework> homeworkArrayList;
+    OnDatabaseCallback onDatabaseCallback;
 
     Context context;
     OnTabItemSelectedListener listener;
@@ -34,18 +34,10 @@ public class SecondFragment extends Fragment {
 
         this.context = context;
 
+        onDatabaseCallback = (OnDatabaseCallback) getActivity();
+
         if (context instanceof OnTabItemSelectedListener) {
             listener = (OnTabItemSelectedListener) context;
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        if (context != null) {
-            context = null;
-            listener = null;
         }
     }
 
@@ -57,7 +49,7 @@ public class SecondFragment extends Fragment {
         initUI(rootView);
 
         // 데이터 로딩(에러 발생)
-        //loadHomeworkListData();
+        // loadHomeworkListData();
 
         return rootView;
     }
@@ -74,17 +66,21 @@ public class SecondFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                ThirdFragment fragment3 = new ThirdFragment();
-                transaction.replace(R.id.container, fragment3);
-                transaction.commit();
+                if (listener != null) {
+                    listener.onTabSelected(2);
+                }
             }
         });
 
+        // recyclerView에 HomeworkAdapter 객체 셋팅
         adapter = new HomeworkAdapter();
-
-        adapter.addItem(new Homework(0, "", "math", "happy"));
+        adapter.addItem(new Homework(0, "2", "math", "happy"));
         recyclerView.setAdapter(adapter);  // recyclerView에 어댑터 설정
+
+        // Adapter에 모든 아이템 셋팅(OnDatabaseCallback 인터페이스의 메서드 사용) -> 에러 발생
+        homeworkArrayList = onDatabaseCallback.selectAll();  // arrayList에 할당
+
+        adapter.setItems(homeworkArrayList);
 
         adapter.setOnItemClickListener(new OnHomeworkItemClickListener() {
             @Override
@@ -98,15 +94,17 @@ public class SecondFragment extends Fragment {
                 }
             }
         });
+
+        adapter.notifyDataSetChanged();
+
     }
 
-    /**
-     * 리스트 데이터 로딩
-     */
+    /*
+    // 리스트 데이터 로딩
     public int loadHomeworkListData() {
         AppConstants.println("loadHomeworkListData called.");
 
-        String sql = "select _id, deadline, subjectName, homeworkName" + HomeworkDatabase.TABLE_NOTE;
+        String sql = "select _id, deadline, subjectName, homeworkName" + HomeworkDatabase.TABLE_HOMEWORK;
 
         int recordCount = -1;
         HomeworkDatabase database = HomeworkDatabase.getInstance(context);
@@ -140,4 +138,5 @@ public class SecondFragment extends Fragment {
 
         return recordCount;
     }
+     */
 }

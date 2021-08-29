@@ -1,5 +1,6 @@
 package org.techtown.practice1;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -10,13 +11,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.techtown.practice1.Alarm_Reciver;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends FragmentActivity implements OnTabItemSelectedListener {
+public class MainActivity extends FragmentActivity implements OnTabItemSelectedListener, OnDatabaseCallback {
+    private static final String TAG = "MainActivity";
 
     BroadcastReceiver br;
     PendingIntent pending_intent;
@@ -26,10 +34,54 @@ public class MainActivity extends FragmentActivity implements OnTabItemSelectedL
     SecondFragment secondFragment;
     ThirdFragment thirdFragment;
 
+    HomeworkDatabase homeworkDatabase;
+
+    BottomNavigationView bottomNavigation;
+
+    /**
+     * 데이터베이스 인스턴스
+     */
+    public static HomeworkDatabase mDatabase = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        firstFragment = new FirstFragment();
+        secondFragment = new SecondFragment();
+        thirdFragment = new ThirdFragment();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, firstFragment).commit();
+
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.tab1:
+                        Toast.makeText(getApplicationContext(), "첫 번째 탭 선택됨", Toast.LENGTH_LONG).show();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, firstFragment).commit();
+
+                        return true;
+                    case R.id.tab2:
+                        Toast.makeText(getApplicationContext(), "두 번째 탭 선택됨", Toast.LENGTH_LONG).show();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, secondFragment).commit();
+
+                        return true;
+                    case R.id.tab3:
+                        Toast.makeText(getApplicationContext(), "세 번째 탭 선택됨", Toast.LENGTH_LONG).show();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, thirdFragment).commit();
+
+                        return true;
+                }
+
+                return false;
+            }
+        });
 
         /*
         this.context = this;
@@ -58,16 +110,27 @@ public class MainActivity extends FragmentActivity implements OnTabItemSelectedL
         this.registerReceiver(br,intent_filter);
          */
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        FirstFragment fragment1 = new FirstFragment();
-        transaction.replace(R.id.container, fragment1);
-        transaction.commit();
+        // 1페이지로 이동
+        onTabSelected(0);
+
+        // 데이터베이스 열기
+        openDatabase();
     }
 
     @Override
     public void onTabSelected(int position) {
+        if (position == 0) {
+            bottomNavigation.setSelectedItemId(R.id.tab1);
+        } else if (position == 1) {
+            secondFragment = new SecondFragment();
 
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, secondFragment).commit();
+        } else if (position == 2) {
+            bottomNavigation.setSelectedItemId(R.id.tab3);
+        }
     }
+
     @Override
     public void showThirdFragment(Homework item) {
 
@@ -76,6 +139,48 @@ public class MainActivity extends FragmentActivity implements OnTabItemSelectedL
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, thirdFragment).commit();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mDatabase != null) {
+            mDatabase.close();
+            mDatabase = null;
+        }
+    }
+
+    public void openDatabase() {
+        // open database
+        if (mDatabase != null) {
+            mDatabase.close();
+            mDatabase = null;
+        }
+
+        mDatabase = HomeworkDatabase.getInstance(this);
+        boolean isOpen = mDatabase.open();
+        if (isOpen) {
+            Log.d(TAG, "Homework database is open.");
+        } else {
+            Log.d(TAG, "Homework database is not open.");
+        }
+    }
+
+    private void println(String data) {
+        Log.d(TAG, data);
+    }
+
+    @Override
+    public void insert(String deadline, String subjectName, String homeworkName) {
+        homeworkDatabase.insertRecord(deadline, subjectName, homeworkName);
+        Toast.makeText(getApplicationContext(), "추가 완료!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public ArrayList<Homework> selectAll() {
+        ArrayList<Homework> homeworkArrayList = homeworkDatabase.selectAll();
+        Toast.makeText(getApplicationContext(), "조회 완료!", Toast.LENGTH_SHORT).show();
+        return homeworkArrayList;
     }
 }

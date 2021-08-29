@@ -15,7 +15,6 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
 
     // Homework 객체를 담는 ArrayList 자료형의 items 변수 만듦
     ArrayList<Homework> items = new ArrayList<Homework>();
-
     OnHomeworkItemClickListener listener;
     int layoutType = 0;
 
@@ -104,12 +103,10 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
                     }
                 }
             });
-
             //setLayoutType(layoutType);
         }
 
         public void setItem(Homework item) {
-
             textView.setText(item.getDeadline());
             textView2.setText(item.getSubjectName());
             textView3.setText(item.getHomeworkName());
@@ -125,7 +122,6 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
                 layout2.setVisibility(View.VISIBLE);
             }
         }
-
          */
     }
 }
