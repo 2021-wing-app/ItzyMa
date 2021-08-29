@@ -140,28 +140,12 @@ public class HomeworkDatabase {
 
             // create table
             String CREATE_SQL = "create table " + TABLE_NOTE + "("
-                    + "  _id INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, "
-                    + "  DEADLINE TEXT DEFAULT '', "
-                    + "  SUBJECTNAME TEXT DEFAULT '', "
-                    + "   TEXT DEFAULT '', "
-                    + "  CREATE_DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
-                    + "  MODIFY_DATE TIMESTAMP DEFAULT CURRENT_TIMESTAMP "
-                    + ")";
-            try {
-                db.execSQL(CREATE_SQL);
-            } catch(Exception ex) {
-                Log.e(TAG, "Exception in CREATE_SQL", ex);
-            }
+                    + " _id integer PRIMARY KEY autoincrement, "
+                    + "  deadline text, "
+                    + "  subjectName text, "
+                    + "  homeworkName text)";
 
-            // create index
-            String CREATE_INDEX_SQL = "create index " + TABLE_NOTE + "_IDX ON " + TABLE_NOTE + "("
-                    + "CREATE_DATE"
-                    + ")";
-            try {
-                db.execSQL(CREATE_INDEX_SQL);
-            } catch(Exception ex) {
-                Log.e(TAG, "Exception in CREATE_INDEX_SQL", ex);
-            }
+            db.execSQL(CREATE_SQL);  // SQL문 실행하기
         }
 
         public void onOpen(SQLiteDatabase db) {

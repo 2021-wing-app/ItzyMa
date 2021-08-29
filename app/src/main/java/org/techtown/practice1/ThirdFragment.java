@@ -27,7 +27,10 @@ import java.util.Locale;
 public class ThirdFragment extends Fragment {
     private static final String TAG = "ThirdFragment";
 
+    int mMode = AppConstants.MODE_INSERT;
+
     Context context;
+    OnTabItemSelectedListener listener;
 
     EditText editText1, editText2;
     Button calendarButton, addHomework, clockButton;
@@ -40,6 +43,10 @@ public class ThirdFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+
+        if (context instanceof OnTabItemSelectedListener) {
+            listener = (OnTabItemSelectedListener) context;
+        }
     }
 
     @Override
@@ -48,6 +55,7 @@ public class ThirdFragment extends Fragment {
 
         if (context != null) {
             context = null;
+            listener = null;
         }
     }
 
@@ -70,6 +78,12 @@ public class ThirdFragment extends Fragment {
         // 최상위 레이아웃(rootView) 선언
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_third, container, false);
 
+        initUI(rootView);
+
+        return rootView;
+    }
+
+    private void initUI(ViewGroup rootView) {
         editText1 = rootView.findViewById(R.id.editText1);
         editText2 = rootView.findViewById(R.id.editText2);
         calendarButton = rootView.findViewById(R.id.calendarButton);
@@ -169,23 +183,14 @@ public class ThirdFragment extends Fragment {
                     HomeworkDatabase database = HomeworkDatabase.getInstance(context);
                     database.execSQL(sql);
 
-                    /*
-                    // 정보 전달
-                    Bundle bundle = new Bundle();  // bundle으로 값 전달
-                    bundle.putString("subjectName", subjectName); // bundle에 넘길 값 저장
-                    bundle.putString("homeworkName", homeworkName);
-                    bundle.putString("deadline", deadline);
+                    // 화면 전환
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    fragment2.setArguments(bundle);  // bundle을 SecondFragment로 보낼 준비
                     transaction.replace(R.id.container, fragment2);
                     transaction.commit();
-
-                     */
                 }
             }
         });
-        return rootView;
-    }
+    };
 
     public void changeDateFormat() {
         String format = "YYYY/MM/dd";
@@ -197,7 +202,15 @@ public class ThirdFragment extends Fragment {
     }
 
 
-    public static void setItem(Homework item) {
+    public void setItem(Homework item) {
         this.item = item;
+    }
+
+    public void applyItem() {
+        AppConstants.println("applyItem called.");
+
+        if (item != null) {
+            mMode = AppConstants.MODE_MODIFY;
+        }
     }
 }

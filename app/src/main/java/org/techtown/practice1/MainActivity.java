@@ -31,7 +31,7 @@ public class MainActivity extends FragmentActivity implements OnTabItemSelectedL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        /*
         this.context = this;
         final Intent my_intent = new Intent(this.context, Alarm_Reciver.class);
 
@@ -56,7 +56,7 @@ public class MainActivity extends FragmentActivity implements OnTabItemSelectedL
         //ACTION_BOOT_COMPLETED맞는지 확인(표준 브로드캐스트 액션) or ACTION_TIME_CHANGED ? or ALARM_START?
         IntentFilter intent_filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
         this.registerReceiver(br,intent_filter);
-
+         */
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         FirstFragment fragment1 = new FirstFragment();
@@ -72,7 +72,7 @@ public class MainActivity extends FragmentActivity implements OnTabItemSelectedL
     public void showThirdFragment(Homework item) {
 
         thirdFragment = new ThirdFragment();
-        ThirdFragment.setItem(item);
+        thirdFragment.setItem(item);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, thirdFragment).commit();

@@ -1,6 +1,7 @@
 package org.techtown.practice1;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class SecondFragment extends Fragment {
     private static final String TAG = "SecondFragment";
@@ -53,8 +56,8 @@ public class SecondFragment extends Fragment {
 
         initUI(rootView);
 
-        // 데이터 로딩
-        // loadNoteListData();
+        // 데이터 로딩(에러 발생)
+        //loadHomeworkListData();
 
         return rootView;
     }
@@ -79,7 +82,9 @@ public class SecondFragment extends Fragment {
         });
 
         adapter = new HomeworkAdapter();
-        recyclerView.setAdapter(adapter); // recyclerView에 어댑터 설정
+
+        adapter.addItem(new Homework(0, "", "math", "happy"));
+        recyclerView.setAdapter(adapter);  // recyclerView에 어댑터 설정
 
         adapter.setOnItemClickListener(new OnHomeworkItemClickListener() {
             @Override
@@ -88,8 +93,9 @@ public class SecondFragment extends Fragment {
 
                 Log.d(TAG, "아이템 선택됨 : " + item.get_id());
 
-                listener.showThirdFragment(item);
-
+                if (listener != null) {
+                    listener.showThirdFragment(item);
+                }
             }
         });
     }
@@ -97,4 +103,41 @@ public class SecondFragment extends Fragment {
     /**
      * 리스트 데이터 로딩
      */
+    public int loadHomeworkListData() {
+        AppConstants.println("loadHomeworkListData called.");
+
+        String sql = "select _id, deadline, subjectName, homeworkName" + HomeworkDatabase.TABLE_NOTE;
+
+        int recordCount = -1;
+        HomeworkDatabase database = HomeworkDatabase.getInstance(context);
+        if (database != null) {
+            Cursor outCursor = database.rawQuery(sql);
+
+            recordCount = outCursor.getCount();
+            AppConstants.println("record count : " + recordCount + "\n");
+
+            ArrayList<Homework> items = new ArrayList<Homework>();
+
+            for (int i = 0; i < recordCount; i++) {
+                outCursor.moveToNext();
+
+                int _id = outCursor.getInt(0);
+                String deadline = outCursor.getString(1);
+                String subjectName = outCursor.getString(2);
+                String homeworkName = outCursor.getString(3);
+
+                AppConstants.println("#" + i + " -> " + _id + ", " + deadline + ", " +
+                        subjectName + ", " + homeworkName);
+
+                items.add(new Homework(_id, deadline, subjectName, homeworkName));
+            }
+
+            outCursor.close();
+
+            adapter.setItems(items);
+            adapter.notifyDataSetChanged();
+        }
+
+        return recordCount;
+    }
 }

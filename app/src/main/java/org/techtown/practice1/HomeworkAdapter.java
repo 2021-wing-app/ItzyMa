@@ -38,7 +38,7 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Homework item = items.get(position);
         holder.setItem(item);
-        holder.setLayoutType(layoutType);
+        //holder.setLayoutType(layoutType);
     }
 
     // recyclerView에서 어댑터가 관리하는 아이템의 개수를 반환
@@ -64,12 +64,6 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
         this.listener = listener;
     }
 
-    // 특정 위치의 객체 설정
-    public void setItem(int position, Homework item) {
-        items.set(position, item);
-    }
-
-
     @Override
     public void onItemClick(ViewHolder holder, View view, int position) {
         if (listener != null) {
@@ -82,8 +76,8 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout layout1;
-        LinearLayout layout2;
+        //LinearLayout layout1;
+        //LinearLayout layout2;
 
         TextView textView;
         TextView textView2;
@@ -91,6 +85,9 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
 
         public ViewHolder(View itemView, final OnHomeworkItemClickListener listener, int layoutType) {
             super(itemView);
+
+            //layout1 = itemView.findViewById(R.id.layout1);
+            //layout2 = itemView.findViewById(R.id.layout2);
 
             textView = itemView.findViewById(R.id.textView);
             textView2 = itemView.findViewById(R.id.textView2);
@@ -108,16 +105,17 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
                 }
             });
 
-            setLayoutType(layoutType);
+            //setLayoutType(layoutType);
         }
 
         public void setItem(Homework item) {
+
             textView.setText(item.getDeadline());
             textView2.setText(item.getSubjectName());
             textView3.setText(item.getHomeworkName());
         }
 
-
+        /*
         public void setLayoutType(int layoutType) {
             if (layoutType == 0) {
                 layout1.setVisibility(View.VISIBLE);
@@ -127,5 +125,7 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
                 layout2.setVisibility(View.VISIBLE);
             }
         }
+
+         */
     }
 }
