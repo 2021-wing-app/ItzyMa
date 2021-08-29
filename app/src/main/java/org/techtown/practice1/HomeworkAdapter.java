@@ -1,5 +1,6 @@
 package org.techtown.practice1;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,13 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
     // Homework 객체를 담는 ArrayList 자료형의 items 변수 만듦
     ArrayList<Homework> items = new ArrayList<Homework>();
     OnHomeworkItemClickListener listener;
-    int layoutType = 0;
+    private static Context context;
+
+    public HomeworkAdapter() {}
+
+    public HomeworkAdapter(Context context) {
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -28,7 +35,7 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
         View itemView = inflater.inflate(R.layout.homework_item, viewGroup, false);
 
         // 뷰홀더 객체를 생성하며 뷰 객체(itemView)를 전달하고, 뷰홀더 객체 반환
-        return new ViewHolder(itemView, this, layoutType);
+        return new ViewHolder(itemView, this);
     }
 
     @Override
@@ -70,28 +77,21 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
         }
     }
 
-    public void switchLayout(int position) {
-        layoutType = position;
-    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        //LinearLayout layout1;
-        //LinearLayout layout2;
 
         TextView textView;
         TextView textView2;
         TextView textView3;
 
-        public ViewHolder(View itemView, final OnHomeworkItemClickListener listener, int layoutType) {
+        public ViewHolder(View itemView, final OnHomeworkItemClickListener listener) {
             super(itemView);
-
-            //layout1 = itemView.findViewById(R.id.layout1);
-            //layout2 = itemView.findViewById(R.id.layout2);
 
             textView = itemView.findViewById(R.id.textView);
             textView2 = itemView.findViewById(R.id.textView2);
             textView3 = itemView.findViewById(R.id.textView3);
 
+            // 아이템 뷰를 클릭했을 때 이벤트 처리
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -103,7 +103,6 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
                     }
                 }
             });
-            //setLayoutType(layoutType);
         }
 
         public void setItem(Homework item) {
@@ -111,17 +110,5 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
             textView2.setText(item.getSubjectName());
             textView3.setText(item.getHomeworkName());
         }
-
-        /*
-        public void setLayoutType(int layoutType) {
-            if (layoutType == 0) {
-                layout1.setVisibility(View.VISIBLE);
-                layout2.setVisibility(View.GONE);
-            } else if (layoutType == 1) {
-                layout1.setVisibility(View.GONE);
-                layout2.setVisibility(View.VISIBLE);
-            }
-        }
-         */
     }
 }

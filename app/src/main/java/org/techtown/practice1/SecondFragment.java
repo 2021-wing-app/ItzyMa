@@ -66,20 +66,19 @@ public class SecondFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener != null) {
-                    listener.onTabSelected(2);
-                }
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                ThirdFragment fragment3 = new ThirdFragment();
+                transaction.replace(R.id.container, fragment3);
+                transaction.commit();
             }
         });
 
         // recyclerView에 HomeworkAdapter 객체 셋팅
         adapter = new HomeworkAdapter();
-        adapter.addItem(new Homework(0, "2", "math", "happy"));
         recyclerView.setAdapter(adapter);  // recyclerView에 어댑터 설정
 
         // Adapter에 모든 아이템 셋팅(OnDatabaseCallback 인터페이스의 메서드 사용) -> 에러 발생
         homeworkArrayList = onDatabaseCallback.selectAll();  // arrayList에 할당
-
         adapter.setItems(homeworkArrayList);
 
         adapter.setOnItemClickListener(new OnHomeworkItemClickListener() {
@@ -96,7 +95,6 @@ public class SecondFragment extends Fragment {
         });
 
         adapter.notifyDataSetChanged();
-
     }
 
     /*

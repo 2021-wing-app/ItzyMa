@@ -25,9 +25,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ThirdFragment extends Fragment {
-    private static final String TAG = "ThirdFragment";
-
-    int mMode = AppConstants.MODE_INSERT;
 
     Context context;
     OnTabItemSelectedListener listener;
@@ -38,7 +35,6 @@ public class ThirdFragment extends Fragment {
     int checkBoxChecker = 0, alarmHour = 0, alarmMinute = 0;
     OnDatabaseCallback onDatabaseCallback;
 
-    Homework item;
 
     @Override
     public void onAttach(Context context) {
@@ -46,10 +42,6 @@ public class ThirdFragment extends Fragment {
         this.context = context;
 
         onDatabaseCallback = (OnDatabaseCallback) getActivity();
-
-        if (context instanceof OnTabItemSelectedListener) {
-            listener = (OnTabItemSelectedListener) context;
-        }
     }
 
     @Override
@@ -179,7 +171,7 @@ public class ThirdFragment extends Fragment {
                     // 데이터 베이스에 레코드 삽입
                     onDatabaseCallback.insert(deadline, subjectName, homeworkName);
 
-                    /*
+                    /* // 레코드 삽입 다른 방법
                     String sql = "insert into " + HomeworkDatabase.TABLE_HOMEWORK +
                             "(DEADLINE, SUBJECTNAME, HOMEWORKNAME) values(" +
                             "'"+ deadline + "', " +
@@ -188,17 +180,17 @@ public class ThirdFragment extends Fragment {
                     Log.d(TAG, "sql : " + sql);
                     HomeworkDatabase database = HomeworkDatabase.getInstance(context);
                     database.execSQL(sql);
-
                      */
 
                     // 화면 전환
-                    if (listener != null) {
-                        listener.onTabSelected(1);
-                    }
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    SecondFragment fragment2 = new SecondFragment();
+                    transaction.replace(R.id.container, fragment2);
+                    transaction.commit();
                 }
             }
         });
-    };
+    }
 
     public void changeDateFormat() {
         String format = "YYYY/MM/dd";
@@ -207,18 +199,5 @@ public class ThirdFragment extends Fragment {
             simpleDateFormat = new SimpleDateFormat(format, Locale.KOREA);
         }
         calendarButton.setText(simpleDateFormat.format(calendar.getTime()));
-    }
-
-
-    public void setItem(Homework item) {
-        this.item = item;
-    }
-
-    public void applyItem() {
-        AppConstants.println("applyItem called.");
-
-        if (item != null) {
-            mMode = AppConstants.MODE_MODIFY;
-        }
     }
 }
