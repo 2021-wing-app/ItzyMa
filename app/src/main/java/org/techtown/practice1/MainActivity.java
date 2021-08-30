@@ -13,7 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements OnDatabaseCallback {
+public class MainActivity extends AppCompatActivity implements OnTabItemSelectedListener, OnDatabaseCallback {
     private static final String TAG = "MainActivity";
 
     Toolbar toolbar;
@@ -105,5 +105,15 @@ public class MainActivity extends AppCompatActivity implements OnDatabaseCallbac
         ArrayList<Homework> homeworkArrayList = homeworkDatabase.selectAll();
         Toast.makeText(getApplicationContext(), "조회 완료!", Toast.LENGTH_SHORT).show();
         return homeworkArrayList;
+    }
+
+    public void showThirdFragment(Homework item) {
+
+        thirdFragment = new ThirdFragment();
+        thirdFragment.setItem(item);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, thirdFragment).commit();
+
     }
 }

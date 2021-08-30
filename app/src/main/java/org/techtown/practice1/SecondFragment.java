@@ -96,41 +96,4 @@ public class SecondFragment extends Fragment {
 
         adapter.notifyDataSetChanged();
     }
-
-    /*
-    // 리스트 데이터 로딩
-    public int loadHomeworkListData() {
-
-        String sql = "select _id, deadline, subjectName, homeworkName" + HomeworkDatabase.TABLE_HOMEWORK;
-
-        int recordCount = -1;
-        HomeworkDatabase database = HomeworkDatabase.getInstance(context);
-        if (database != null) {
-            Cursor outCursor = database.rawQuery(sql);
-
-            recordCount = outCursor.getCount();
-
-            ArrayList<Homework> items = new ArrayList<Homework>();
-
-            for (int i = 0; i < recordCount; i++) {
-                outCursor.moveToNext();
-
-                int _id = outCursor.getInt(0);
-                String deadline = outCursor.getString(1);
-                String subjectName = outCursor.getString(2);
-                String homeworkName = outCursor.getString(3);
-
-                items.add(new Homework(_id, deadline, subjectName, homeworkName));
-            }
-
-            outCursor.close();
-
-            adapter.setItems(items);
-            adapter.notifyDataSetChanged();
-        }
-
-        return recordCount;
-    }
-     */
-
 }

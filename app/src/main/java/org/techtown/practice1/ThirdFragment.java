@@ -30,11 +30,12 @@ public class ThirdFragment extends Fragment {
     OnTabItemSelectedListener listener;
 
     EditText editText1, editText2;
-    Button calendarButton, addHomework, clockButton;
+    Button calendarButton, addHomework, delete, clockButton;
     CheckBox check1, check2, check3;
     int checkBoxChecker = 0, alarmHour = 0, alarmMinute = 0;
     OnDatabaseCallback onDatabaseCallback;
 
+    Homework item;
 
     @Override
     public void onAttach(Context context) {
@@ -81,6 +82,7 @@ public class ThirdFragment extends Fragment {
         editText2 = rootView.findViewById(R.id.editText2);
         calendarButton = rootView.findViewById(R.id.calendarButton);
         addHomework = rootView.findViewById(R.id.addHomework);
+        delete = rootView.findViewById(R.id.delete);
         clockButton = rootView.findViewById(R.id.clockButton);
 
         Date currentTime = Calendar.getInstance().getTime();
@@ -177,6 +179,20 @@ public class ThirdFragment extends Fragment {
                 }
             }
         });
+
+        // 삭제 버튼
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteNote();
+
+                // 화면 전환
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                SecondFragment fragment2 = new SecondFragment();
+                transaction.replace(R.id.container, fragment2);
+                transaction.commit();
+            }
+        });
     }
 
     public void changeDateFormat() {
@@ -186,5 +202,25 @@ public class ThirdFragment extends Fragment {
             simpleDateFormat = new SimpleDateFormat(format, Locale.KOREA);
         }
         calendarButton.setText(simpleDateFormat.format(calendar.getTime()));
+    }
+
+    /**
+     * 레코드 삭제
+     */
+    private void deleteNote() {
+        if (item != null) {
+            // delete note
+            String sql = "delete from " + HomeworkDatabase.TABLE_HOMEWORK +
+                    " where " +
+                    "   _id = " + item._id;
+
+            Log.d(TAG, "sql : " + sql);
+            HomeworkDatabase database = HomeworkDatabase.getInstance(context);
+            database.execSQL(sql);
+        }
+    }
+
+    public void setItem(Homework item) {
+        this.item = item;
     }
 }
