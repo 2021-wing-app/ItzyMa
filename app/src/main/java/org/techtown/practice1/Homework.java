@@ -44,4 +44,13 @@ public class Homework {
     public void setHomeworkName(String homeworkName) {
         this.homeworkName = homeworkName;
     }
+
+    @Override
+    public String toString() {
+        return "Homework{" +
+                " deadline='" + deadline + '\'' +
+                ", subjectName='" + subjectName + '\'' +
+                ", homeworkName='" + homeworkName + '\'' +
+                '}';
+    }
 }

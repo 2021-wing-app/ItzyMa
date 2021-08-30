@@ -49,7 +49,7 @@ public class SecondFragment extends Fragment {
         initUI(rootView);
 
         // 데이터 로딩(에러 발생)
-        // loadHomeworkListData();
+        //loadHomeworkListData();
 
         return rootView;
     }
@@ -100,7 +100,6 @@ public class SecondFragment extends Fragment {
     /*
     // 리스트 데이터 로딩
     public int loadHomeworkListData() {
-        AppConstants.println("loadHomeworkListData called.");
 
         String sql = "select _id, deadline, subjectName, homeworkName" + HomeworkDatabase.TABLE_HOMEWORK;
 
@@ -110,7 +109,6 @@ public class SecondFragment extends Fragment {
             Cursor outCursor = database.rawQuery(sql);
 
             recordCount = outCursor.getCount();
-            AppConstants.println("record count : " + recordCount + "\n");
 
             ArrayList<Homework> items = new ArrayList<Homework>();
 
@@ -121,9 +119,6 @@ public class SecondFragment extends Fragment {
                 String deadline = outCursor.getString(1);
                 String subjectName = outCursor.getString(2);
                 String homeworkName = outCursor.getString(3);
-
-                AppConstants.println("#" + i + " -> " + _id + ", " + deadline + ", " +
-                        subjectName + ", " + homeworkName);
 
                 items.add(new Homework(_id, deadline, subjectName, homeworkName));
             }
@@ -137,4 +132,5 @@ public class SecondFragment extends Fragment {
         return recordCount;
     }
      */
+
 }

@@ -44,7 +44,6 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Homework item = items.get(position);
         holder.setItem(item);
-        //holder.setLayoutType(layoutType);
     }
 
     // recyclerView에서 어댑터가 관리하는 아이템의 개수를 반환

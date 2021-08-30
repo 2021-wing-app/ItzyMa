@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ThirdFragment extends Fragment {
-
+    private static final String TAG = "ThirdFragment";
     Context context;
     OnTabItemSelectedListener listener;
 
@@ -39,8 +39,6 @@ public class ThirdFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context = context;
-
         onDatabaseCallback = (OnDatabaseCallback) getActivity();
     }
 
@@ -170,17 +168,6 @@ public class ThirdFragment extends Fragment {
 
                     // 데이터 베이스에 레코드 삽입
                     onDatabaseCallback.insert(deadline, subjectName, homeworkName);
-
-                    /* // 레코드 삽입 다른 방법
-                    String sql = "insert into " + HomeworkDatabase.TABLE_HOMEWORK +
-                            "(DEADLINE, SUBJECTNAME, HOMEWORKNAME) values(" +
-                            "'"+ deadline + "', " +
-                            "'"+ subjectName + "', " +
-                            "'"+ homeworkName + "')";
-                    Log.d(TAG, "sql : " + sql);
-                    HomeworkDatabase database = HomeworkDatabase.getInstance(context);
-                    database.execSQL(sql);
-                     */
 
                     // 화면 전환
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

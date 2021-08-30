@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnDatabaseCallbac
             }
         });
 
+        // open database
         if (homeworkDatabase != null) {
             homeworkDatabase.close();
             homeworkDatabase = null;

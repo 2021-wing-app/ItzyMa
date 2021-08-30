@@ -14,22 +14,17 @@ public class HomeworkDatabase {
     // 싱글톤 인스턴스
     private static HomeworkDatabase database;
 
+    public static String DATABASE_NAME = "homework.db";
     // table name for HOMEWORK
     public static String TABLE_HOMEWORK = "HOMEWORK";
-
     // version
     public static int DATABASE_VERSION = 1;
-
-
     // Helper class defined
     private DatabaseHelper dbHelper;
-
-    // SQLiteDatabase 인스턴스
-    private SQLiteDatabase db;
-
     // 컨텍스트 객체
     private Context context;
-
+    // 데이터베이스 객체
+    private SQLiteDatabase db;
     // 생성자
     private HomeworkDatabase(Context context) {
         this.context = context;
@@ -46,7 +41,7 @@ public class HomeworkDatabase {
 
     // 데이터베이스 열기
     public boolean open() {
-        println("opening database [" + AppConstants.DATABASE_NAME + "].");
+        println("opening database [" + DATABASE_NAME + "].");
 
         dbHelper = new DatabaseHelper(context);
         db = dbHelper.getWritableDatabase();
@@ -56,7 +51,7 @@ public class HomeworkDatabase {
 
     // 데이터베이스 닫기
     public void close() {
-        println("closing database [" + AppConstants.DATABASE_NAME + "].");
+        println("closing database [" + DATABASE_NAME + "].");
         db.close();
         database = null;
     }
@@ -90,6 +85,62 @@ public class HomeworkDatabase {
         return true;
     }
 
+
+
+    // Database Helper inner class
+    private class DatabaseHelper extends SQLiteOpenHelper {
+
+        public DatabaseHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        }
+
+        public void onCreate(SQLiteDatabase _db) {
+            println("creating database [" + DATABASE_NAME + "].");
+
+            // TABLE_NOTE
+            println("creating table [" + TABLE_HOMEWORK + "].");
+
+            // drop existing table
+            String DROP_SQL = "drop table if exists " + TABLE_HOMEWORK;
+            try {
+                _db.execSQL(DROP_SQL);
+            } catch(Exception ex) {
+                Log.e(TAG, "Exception in DROP_SQL", ex);
+            }
+
+            // create table
+            String CREATE_SQL = "create table " + TABLE_HOMEWORK + "("
+                    + " _id INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, "
+                    + "  DEADLINE TEXT, "
+                    + "  SUBJECTNAME TEXT, "
+                    + "  HOMEWORKNAME TEXT" + ")";
+
+            try {
+                _db.execSQL(CREATE_SQL);
+            } catch(Exception ex) {
+                Log.e(TAG, "Exception in CREATE_SQL", ex);  // SQL문 실행하기
+            }
+
+            //insertRecord(_db, "10월 1일", "수학", "연습문제");
+        }
+
+        public void onOpen(SQLiteDatabase db) {
+            println("opened database [" + DATABASE_NAME + "].");
+        }
+
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            println("Upgrading database from version " + oldVersion + " to " + newVersion + ".");
+        }
+
+        private void insertRecord(SQLiteDatabase _db, String deadline, String subjectName, String homeworkName) {
+            try {
+                _db.execSQL( "insert into " + TABLE_HOMEWORK + "(DEADLINE, SUBJECTNAME, HOMEWORKNAME) values ('" + deadline + "', '" + subjectName + "', '" + homeworkName + "');" );
+            } catch(Exception ex) {
+                Log.e(TAG, "Exception in executing insert SQL.", ex);
+            }
+        }
+    }
+
     public void insertRecord(String deadline, String subjectName, String homeworkName) {
         try {
             db.execSQL( "insert into " + TABLE_HOMEWORK + "(DEADLINE, SUBJECTNAME, HOMEWORKNAME) values ('" + deadline + "', '" + subjectName + "', '" + homeworkName + "');" );
@@ -119,50 +170,6 @@ public class HomeworkDatabase {
         }
 
         return result;
-    }
-
-    // Database Helper inner class
-    private class DatabaseHelper extends SQLiteOpenHelper {
-
-        public DatabaseHelper(Context context) {
-            super(context, AppConstants.DATABASE_NAME, null, DATABASE_VERSION);
-        }
-
-        public void onCreate(SQLiteDatabase db) {
-            println("creating database [" + AppConstants.DATABASE_NAME + "].");
-
-            // TABLE_NOTE
-            println("creating table [" + TABLE_HOMEWORK + "].");
-
-            // drop existing table
-            String DROP_SQL = "drop table if exists " + TABLE_HOMEWORK;
-            try {
-                db.execSQL(DROP_SQL);
-            } catch(Exception ex) {
-                Log.e(TAG, "Exception in DROP_SQL", ex);
-            }
-
-            // create table
-            String CREATE_SQL = "create table " + TABLE_HOMEWORK + "("
-                    + " _id INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, "
-                    + "  DEADLINE TEXT, "
-                    + "  SUBJECTNAME TEXT, "
-                    + "  HOMEWORKNAME TEXT" + ")";
-
-            try {
-                db.execSQL(CREATE_SQL);
-            } catch(Exception ex) {
-                Log.e(TAG, "Exception in CREATE_SQL", ex);  // SQL문 실행하기
-            }
-        }
-
-        public void onOpen(SQLiteDatabase db) {
-            println("opened database [" + AppConstants.DATABASE_NAME + "].");
-        }
-
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            println("Upgrading database from version " + oldVersion + " to " + newVersion + ".");
-        }
     }
 
     private void println(String msg) {
