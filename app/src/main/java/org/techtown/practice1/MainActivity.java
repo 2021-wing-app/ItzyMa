@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
 
     Toolbar toolbar;
 
-    SecondFragment secondFragment;
-    ThirdFragment thirdFragment;
+    Fragment1 fragment1;
+    Fragment2 fragment2;
 
     HomeworkDatabase homeworkDatabase;
 
@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 
-        secondFragment = new SecondFragment();
-        thirdFragment = new ThirdFragment();
+        fragment1 = new Fragment1();
+        fragment2 = new Fragment2();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, secondFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment1).commit();
 
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("목록"));
@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
 
                 Fragment selected = null;
                 if (position == 0) {
-                    selected = secondFragment;
+                    selected = fragment1;
                 } else if (position == 1) {
-                    selected = thirdFragment;
+                    selected = fragment2;
                 }
                 // 선택된 프래그먼트로 전환
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, selected).commit();
@@ -109,11 +109,11 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
 
     public void showThirdFragment(Homework item) {
 
-        thirdFragment = new ThirdFragment();
-        thirdFragment.setItem(item);
+        fragment2 = new Fragment2();
+        fragment2.setItem(item);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, thirdFragment).commit();
+                .replace(R.id.container, fragment2).commit();
 
     }
 }

@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class SecondFragment extends Fragment {
-    private static final String TAG = "SecondFragment";
+public class Fragment1 extends Fragment {
+    private static final String TAG = "Fragment1";
 
     Button addButton;
     HomeworkAdapter adapter;
@@ -67,8 +67,8 @@ public class SecondFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                ThirdFragment fragment3 = new ThirdFragment();
-                transaction.replace(R.id.container, fragment3);
+                Fragment2 fragment2 = new Fragment2();
+                transaction.replace(R.id.container, fragment2);
                 transaction.commit();
             }
         });

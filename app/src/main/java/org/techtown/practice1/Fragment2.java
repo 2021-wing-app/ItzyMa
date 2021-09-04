@@ -24,8 +24,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ThirdFragment extends Fragment {
-    private static final String TAG = "ThirdFragment";
+public class Fragment2 extends Fragment {
+    private static final String TAG = "Fragment2";
     Context context;
     OnTabItemSelectedListener listener;
 
@@ -173,8 +173,8 @@ public class ThirdFragment extends Fragment {
 
                     // 화면 전환
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    SecondFragment fragment2 = new SecondFragment();
-                    transaction.replace(R.id.container, fragment2);
+                    Fragment1 fragment1 = new Fragment1();
+                    transaction.replace(R.id.container, fragment1);
                     transaction.commit();
                 }
             }
@@ -188,8 +188,8 @@ public class ThirdFragment extends Fragment {
 
                 // 화면 전환
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                SecondFragment fragment2 = new SecondFragment();
-                transaction.replace(R.id.container, fragment2);
+                Fragment1 fragment1 = new Fragment1();
+                transaction.replace(R.id.container, fragment1);
                 transaction.commit();
             }
         });
