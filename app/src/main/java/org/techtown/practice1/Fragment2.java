@@ -30,7 +30,7 @@ public class Fragment2 extends Fragment {
     OnTabItemSelectedListener listener;
 
     EditText editText1, editText2;
-    Button calendarButton, addHomework, delete, clockButton;
+    Button calendarButton, clockButton, addHomework, delete, close;
     CheckBox check1, check2, check3;
     int checkBoxChecker = 0, alarmHour = 0, alarmMinute = 0;
     OnDatabaseCallback onDatabaseCallback;
@@ -70,7 +70,7 @@ public class Fragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // 최상위 레이아웃(rootView) 선언
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_third, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_2, container, false);
 
         initUI(rootView);
 
@@ -186,6 +186,19 @@ public class Fragment2 extends Fragment {
             public void onClick(View v) {
                 deleteNote();
 
+                // 화면 전환
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment1 fragment1 = new Fragment1();
+                transaction.replace(R.id.container, fragment1);
+                transaction.commit();
+            }
+        });
+
+        // 닫기 버튼
+        close = rootView.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 // 화면 전환
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 Fragment1 fragment1 = new Fragment1();
