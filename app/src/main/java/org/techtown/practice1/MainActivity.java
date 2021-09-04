@@ -1,8 +1,13 @@
 package org.techtown.practice1;
 
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+import android.content.Context;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements OnTabItemSelectedListener, OnDatabaseCallback {
     private static final String TAG = "MainActivity";
@@ -23,10 +29,35 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
 
     HomeworkDatabase homeworkDatabase;
 
+    BroadcastReceiver br;
+    PendingIntent pending_intent;
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //알람 수정 내용
+        this.context = this;
+        final Intent my_intent = new Intent(this.context,Alarm_Reciver.class);
+
+        //임의로 시간 고정해둔 부분. 이 부분을 철환선배 코드랑 연동되도록 수정해야함
+        final Calendar cal = Calendar.getInstance();
+
+        cal.set(Calendar.HOUR_OF_DAY,11);
+        cal.set(Calendar.MINUTE,14);
+        cal.set(Calendar.SECOND,0);
+
+        long time = cal.getTimeInMillis();
+        my_intent.putExtra("time",time);
+
+        PendingIntent pending_intent = PendingIntent.getBroadcast(MainActivity.this,0,my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        br = new Alarm_Reciver();
+        IntentFilter intent_filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
+        this.registerReceiver(br,intent_filter);
+        //알람 코드 내용 끝
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
