@@ -1,6 +1,5 @@
 package org.techtown.practice1;
 
-
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -36,7 +35,7 @@ public class AlarmService extends Service {
         if(Build.VERSION.SDK_INT>=26) {
             super.onCreate();
             mediaPlayer = MediaPlayer.create(this, R.raw.ouu);
-            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
         }
     }
 
