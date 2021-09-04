@@ -1,7 +1,6 @@
 package org.techtown.practice1;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,14 +41,21 @@ public class Fragment1 extends Fragment {
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+
+        if (context != null) {
+            context = null;
+            listener = null;
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_second, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_1, container, false);
 
         initUI(rootView);
-
-        // 데이터 로딩(에러 발생)
-        //loadHomeworkListData();
 
         return rootView;
     }
@@ -89,7 +95,7 @@ public class Fragment1 extends Fragment {
                 Log.d(TAG, "아이템 선택됨 : " + item.get_id());
 
                 if (listener != null) {
-                    listener.showThirdFragment(item);
+                    listener.showFragment2(item);
                 }
             }
         });

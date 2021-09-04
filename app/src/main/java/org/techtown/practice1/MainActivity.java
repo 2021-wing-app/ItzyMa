@@ -142,7 +142,8 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
         return homeworkArrayList;
     }
 
-    public void showThirdFragment(Homework item) {
+    @Override
+    public void showFragment2(Homework item) {
 
         fragment2 = new Fragment2();
         fragment2.setItem(item);

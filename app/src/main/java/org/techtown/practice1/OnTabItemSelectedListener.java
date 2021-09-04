@@ -1,5 +1,5 @@
 package org.techtown.practice1;
 
 public interface OnTabItemSelectedListener {
-    public void showThirdFragment(Homework item);
+    public void showFragment2(Homework item);
 }
