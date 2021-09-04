@@ -24,9 +24,8 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="org.techtown.practice1.FirstFragment">
-    </fragment>
+        android:name="org.techtown.practice1.FirstFragment"
+        android:layout_width="1383dp"
+        android:layout_height="match_parent"></fragment>
 
 </FrameLayout>

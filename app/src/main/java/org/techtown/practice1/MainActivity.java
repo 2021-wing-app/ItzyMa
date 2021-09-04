@@ -1,5 +1,6 @@
 package org.techtown.practice1;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -10,21 +11,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import org.techtown.practice1.Alarm_Reciver;
 
 import java.util.Calendar;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
 
     BroadcastReceiver br;
     PendingIntent pending_intent;
     Context context;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //종료 시 안내 메세지
+        textView = findViewById(R.id.activity_main);
 
 
         this.context = this;
