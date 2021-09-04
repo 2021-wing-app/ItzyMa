@@ -26,10 +26,12 @@ import java.util.Locale;
 
 public class Fragment2 extends Fragment {
     private static final String TAG = "Fragment2";
+    int mMode = AppConstants.MODE_INSERT;
+
     Context context;
     OnTabItemSelectedListener listener;
 
-    EditText editText1, editText2;
+    EditText editText1, editText2;  // 과목명과 과제명을 입력하는 editText
     Button calendarButton, clockButton, addHomework, delete, close;
     CheckBox check1, check2, check3;
     int checkBoxChecker = 0, alarmHour = 0, alarmMinute = 0;
@@ -41,6 +43,12 @@ public class Fragment2 extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         onDatabaseCallback = (OnDatabaseCallback) getActivity();
+
+        this.context = context;
+
+        if (context instanceof OnTabItemSelectedListener) {
+            listener = (OnTabItemSelectedListener) context;
+        }
     }
 
     @Override
@@ -73,6 +81,8 @@ public class Fragment2 extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_2, container, false);
 
         initUI(rootView);
+
+        applyItem();
 
         return rootView;
     }
@@ -235,5 +245,47 @@ public class Fragment2 extends Fragment {
 
     public void setItem(Homework item) {
         this.item = item;
+    }
+
+    public void applyItem() {
+        AppConstants.println("applyItem called.");
+
+        if (item != null) {
+            mMode = AppConstants.MODE_MODIFY;
+
+            setDeadline(item.deadline);
+            setHomeworkName(item.homeworkName);
+            setSubjectName(item.subjectName);
+
+        } else {
+            mMode = AppConstants.MODE_INSERT;
+
+            setHomeworkName("");
+            setSubjectName("");
+        }
+    }
+
+    public void setDeadline(String deadline) {
+        AppConstants.println("setDeadline called : " + deadline);
+
+        if (deadline != null) {
+            calendarButton.setText(deadline);
+        }
+    }
+
+    public void setSubjectName(String subjectName) {
+        AppConstants.println("setSubjectName called : " + subjectName);
+
+        if (subjectName != null) {
+            editText1.setText(subjectName);
+        }
+    }
+
+    public void setHomeworkName(String homeworkName) {
+        AppConstants.println("setHomeworkName called : " + homeworkName);
+
+        if (homeworkName != null) {
+            editText2.setText(homeworkName);
+        }
     }
 }
