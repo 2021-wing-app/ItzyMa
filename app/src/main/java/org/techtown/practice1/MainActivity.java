@@ -1,10 +1,19 @@
 package org.techtown.practice1;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
 import android.content.Context;
@@ -32,6 +41,29 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
     BroadcastReceiver br;
     PendingIntent pending_intent;
     Context context;
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alert_ex = new AlertDialog.Builder(this);
+        alert_ex.setMessage("정말로 종료하시겠습니까?");
+
+        alert_ex.setPositiveButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert_ex.setNegativeButton("종료", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finishAffinity();
+            }
+        });
+        alert_ex.setTitle("훌륭히 해내시리라 믿고있어요 :)");
+        AlertDialog alert = alert_ex.create();
+        alert.show();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
