@@ -25,7 +25,6 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
     public HomeworkAdapter(Context context) {
         this.context = context;
     }
-    int layoutType = 0;  // 레이아웃 타입(생성, 수정)
 
     @NonNull
     @Override
@@ -37,7 +36,7 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
         View itemView = inflater.inflate(R.layout.homework_item, viewGroup, false);
 
         // 뷰홀더 객체를 생성하며 뷰 객체(itemView)를 전달하고, 뷰홀더 객체 반환
-        return new ViewHolder(itemView, this, layoutType);
+        return new ViewHolder(itemView, this);
     }
 
     @Override
@@ -78,19 +77,13 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
         }
     }
 
-    public void switchLayout(int position) {
-        layoutType = position;
-    }
-
     static class ViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout layout1;
-        LinearLayout layout2;
 
         TextView textView;
         TextView textView2;
         TextView textView3;
 
-        public ViewHolder(View itemView, final OnHomeworkItemClickListener listener, int layoutType) {
+        public ViewHolder(View itemView, final OnHomeworkItemClickListener listener) {
             super(itemView);
 
             textView = itemView.findViewById(R.id.textView);
@@ -118,3 +111,4 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
         }
     }
 }
+

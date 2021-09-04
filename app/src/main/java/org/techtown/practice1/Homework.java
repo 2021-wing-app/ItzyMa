@@ -5,15 +5,13 @@ public class Homework {
     String deadline;
     String subjectName;
     String homeworkName;
-    String deadline_time;
-    int alarm_time;
+    String alarm_time;
 
-    public Homework(int _id, String deadline, String subjectName, String homeworkName, String deadline_time, int alarm_time) {
+    public Homework(int _id, String deadline, String subjectName, String homeworkName, String alarm_time) {
         this._id = _id;
         this.deadline = deadline;
         this.subjectName = subjectName;
         this.homeworkName = homeworkName;
-        this.deadline_time = deadline_time;
         this.alarm_time = alarm_time;
     }
 
@@ -49,13 +47,9 @@ public class Homework {
         this.homeworkName = homeworkName;
     }
 
-    public String getDeadline_time() { return deadline_time; }
+    public String getAlarm_time() { return alarm_time; }
 
-    public void setDeadline_time(String deadLine_time) { this.deadline_time = deadLine_time; }
-
-    public int getAlarm_time() { return alarm_time; }
-
-    public void setAlarm_time(int alarm_time) {
+    public void setAlarm_time(String alarm_time) {
         this.alarm_time = alarm_time;
     }
 

@@ -98,7 +98,7 @@ public class Fragment2 extends Fragment {
 
         Date currentTime = Calendar.getInstance().getTime();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            calendarButton.setText(new SimpleDateFormat("YYYY/MM/dd", Locale.getDefault()).format(currentTime));
+            calendarButton.setText(new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(currentTime));
         }
 
         calendarButton.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +115,7 @@ public class Fragment2 extends Fragment {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                clockButton.setText(hourOfDay + "시" + minute + "분");
+                                clockButton.setText(hourOfDay + ":" + minute + ":00");
                             }
                         }, alarmHour, alarmMinute, false);
                 timePickerDialog.show();
@@ -170,51 +170,17 @@ public class Fragment2 extends Fragment {
         addHomework.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String subjectName = editText1.getText().toString();
-                String homeworkName = editText2.getText().toString();
-                String deadline = calendarButton.getText().toString();
-                String deadline_time = clockButton.getText().toString();
-                int alarm_time = 0;
-
-                // checkBoxChecker에 따라 alarm_time 번호가 달라짐 -> 이후 알람 설정 시 alarm_time 변수 참고!
-                if (checkBoxChecker1 == 1 && checkBoxChecker2 == 1 && checkBoxChecker3 == 1) {
-                    alarm_time = 7;
-                } else if (checkBoxChecker1 == 1 && checkBoxChecker2 == 1 && checkBoxChecker3 == 0) {
-                    alarm_time = 6;
-                } else if (checkBoxChecker1 == 1 && checkBoxChecker2 == 0 && checkBoxChecker3 == 1) {
-                    alarm_time = 5;
-                } else if (checkBoxChecker1 == 1 && checkBoxChecker2 == 0 && checkBoxChecker3 == 0) {
-                    alarm_time = 4;
-                } else if (checkBoxChecker1 == 0 && checkBoxChecker2 == 1 && checkBoxChecker3 == 1) {
-                    alarm_time = 3;
-                } else if (checkBoxChecker1 == 0 && checkBoxChecker2 == 1 && checkBoxChecker3 == 0) {
-                    alarm_time = 2;
-                } else if (checkBoxChecker1 == 0 && checkBoxChecker2 == 0 && checkBoxChecker3 == 1) {
-                    alarm_time = 1;
+                if(mMode == AppConstants.MODE_INSERT) {
+                    saveNote();
+                } else if(mMode == AppConstants.MODE_MODIFY) {
+                    modifyNote();
                 }
 
-                if (subjectName.length() == 0) {
-                    Toast.makeText(getContext(), "과목명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
-                }
-                else if (homeworkName.length() == 0) {
-                    Toast.makeText(getContext(), "과제명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
-                }
-                else if (alarm_time == 0) {
-                    Toast.makeText(getContext(), "알람 시간을 다시 체크해주세요", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_LONG).show();
-                    //org.techtown.practice1.SecondFragment fragment2 = new org.techtown.practice1.SecondFragment();  // SecondFragment 선언
-
-                    // 데이터 베이스에 레코드 삽입
-                    onDatabaseCallback.insert(deadline, subjectName, homeworkName, deadline_time, alarm_time);
-
-                    // 화면 전환
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    Fragment1 fragment1 = new Fragment1();
-                    transaction.replace(R.id.container, fragment1);
-                    transaction.commit();
-                }
+                // 화면 전환
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment1 fragment1 = new Fragment1();
+                transaction.replace(R.id.container, fragment1);
+                transaction.commit();
             }
         });
 
@@ -255,10 +221,101 @@ public class Fragment2 extends Fragment {
         calendarButton.setText(simpleDateFormat.format(calendar.getTime()));
     }
 
+    /*
+
+    String subjectName = editText1.getText().toString();
+                String homeworkName = editText2.getText().toString();
+                String deadline = calendarButton.getText().toString();
+                String deadline_time = clockButton.getText().toString();
+
+
+                if (subjectName.length() == 0) {
+                    Toast.makeText(getContext(), "과목명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
+                }
+                else if (homeworkName.length() == 0) {
+                    Toast.makeText(getContext(), "과제명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
+                }
+
+                else {
+        Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_LONG).show();
+        //org.techtown.practice1.SecondFragment fragment2 = new org.techtown.practice1.SecondFragment();  // SecondFragment 선언
+
+        // 임시 조치 (수정 요함)
+        String alarm_time = "2021-09-05 01:35:00";
+
+        // 데이터 베이스에 레코드 삽입
+        onDatabaseCallback.insert(deadline, subjectName, homeworkName, alarm_time);
+
+    }
+
+     */
+
+
+    /**
+     * 데이터베이스 레코드 추가
+     */
+    private void saveNote() {
+        String subjectName = editText1.getText().toString();
+        String homeworkName = editText2.getText().toString();
+        String deadline = calendarButton.getText().toString();
+        String deadline_time = clockButton.getText().toString();
+        String alarm_time = "2021-09-06 10:08:00";
+
+        if (subjectName.length() == 0) {
+            Toast.makeText(getContext(), "과목명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
+        }
+        else if (homeworkName.length() == 0) {
+            Toast.makeText(getContext(), "과제명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
+        }
+
+        else {
+            Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_SHORT).show();
+
+            String sql = "insert into " + HomeworkDatabase.TABLE_HOMEWORK +
+                    "(DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME) values(" +
+                    "'"+ deadline + "', " +
+                    "'"+ subjectName + "', " +
+                    "'"+ homeworkName + "', " +
+                    "'"+ alarm_time + "')";
+
+            Log.d(TAG, "sql : " + sql);
+            HomeworkDatabase database = HomeworkDatabase.getInstance(context);
+            database.execSQL(sql);
+
+        }
+    }
+
+    /**
+     * 데이터베이스 레코드 수정
+     */
+    private void modifyNote() {
+        if (item != null) {
+            String subjectName = editText1.getText().toString();
+            String homeworkName = editText2.getText().toString();
+
+            // update note
+            String sql = "update " + HomeworkDatabase.TABLE_HOMEWORK +
+                    " set " +
+                    "   DEADLINE = '" + "" + "'" +
+                    "   ,SUBJECTNAME = '" + subjectName + "'" +
+                    "   ,HOMEWORKNAME = '" + homeworkName + "'" +
+                    "   ,ALARM_TIME = '" + "" + "'" +
+                    " where " +
+                    "   _id = " + item._id;
+
+            Log.d(TAG, "sql : " + sql);
+            HomeworkDatabase database = HomeworkDatabase.getInstance(context);
+            database.execSQL(sql);
+        }
+    }
+
     /**
      * 레코드 삭제
      */
     private void deleteNote() {
+
+        Toast.makeText(getContext(), "삭제 완료", Toast.LENGTH_SHORT);
+
         if (item != null) {
             // delete note
             String sql = "delete from " + HomeworkDatabase.TABLE_HOMEWORK +

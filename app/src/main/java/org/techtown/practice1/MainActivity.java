@@ -43,29 +43,6 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
     Context context;
 
     @Override
-    public void onBackPressed() {
-        AlertDialog.Builder alert_ex = new AlertDialog.Builder(this);
-        alert_ex.setMessage("정말로 종료하시겠습니까?");
-
-        alert_ex.setPositiveButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        alert_ex.setNegativeButton("종료", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finishAffinity();
-            }
-        });
-        alert_ex.setTitle("훌륭히 해내시리라 믿고있어요 :)");
-        AlertDialog alert = alert_ex.create();
-        alert.show();
-
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -162,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
 
 
     @Override
-    public void insert(String deadline, String subjectName, String homeworkName, String deadline_time, int alarm_time) {
-        homeworkDatabase.insertRecord(deadline, subjectName, homeworkName, deadline_time, alarm_time);
+    public void insert(String deadline, String subjectName, String homeworkName, String alarm_time) {
+        homeworkDatabase.insertRecord(deadline, subjectName, homeworkName, alarm_time);
         Toast.makeText(getApplicationContext(), "추가 완료!", Toast.LENGTH_SHORT).show();
     }
 

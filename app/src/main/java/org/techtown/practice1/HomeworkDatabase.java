@@ -85,8 +85,6 @@ public class HomeworkDatabase {
         return true;
     }
 
-
-
     // Database Helper inner class
     private class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -114,9 +112,7 @@ public class HomeworkDatabase {
                     + "  DEADLINE TEXT, "
                     + "  SUBJECTNAME TEXT, "
                     + "  HOMEWORKNAME TEXT, "
-                    + "  DEADLINE_TIME TEXT, "
                     + "  ALARM_TIME TEXT" + ")";
-
             try {
                 _db.execSQL(CREATE_SQL);
             } catch(Exception ex) {
@@ -134,18 +130,18 @@ public class HomeworkDatabase {
             println("Upgrading database from version " + oldVersion + " to " + newVersion + ".");
         }
 
-        private void insertRecord(SQLiteDatabase _db, String deadline, String subjectName, String homeworkName, String deadline_time, int alarm_time) {
+        private void insertRecord(SQLiteDatabase _db, String deadline, String subjectName, String homeworkName, String alarm_time) {
             try {
-                _db.execSQL( "insert into " + TABLE_HOMEWORK + "(DEADLINE, SUBJECTNAME, HOMEWORKNAME, DEADLINE_TIME, ALARM_TIME) values ('" + deadline + "', '" + subjectName + "', '" + homeworkName + "', '" + deadline_time + "', '" + alarm_time + "');" );
+                _db.execSQL( "insert into " + TABLE_HOMEWORK + "(DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME) values ('" + deadline + "', '" + subjectName + "', '" + homeworkName + "', '" + alarm_time + "');" );
             } catch(Exception ex) {
                 Log.e(TAG, "Exception in executing insert SQL.", ex);
             }
         }
     }
 
-    public void insertRecord(String deadline, String subjectName, String homeworkName, String deadline_time, int alarm_time) {
+    public void insertRecord(String deadline, String subjectName, String homeworkName, String alarm_time) {
         try {
-            db.execSQL( "insert into " + TABLE_HOMEWORK + "(DEADLINE, SUBJECTNAME, HOMEWORKNAME, DEADLINE_TIME, ALARM_TIME) values ('" + deadline + "', '" + subjectName + "', '" + homeworkName + "', '" + deadline_time + "', '" + alarm_time + "');" );
+            db.execSQL( "insert into " + TABLE_HOMEWORK + "(DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME) values ('" + deadline + "', '" + subjectName + "', '" + homeworkName + "', '" + alarm_time + "');" );
         } catch(Exception ex) {
             Log.e(TAG, "Exception in executing insert SQL.", ex);
         }
@@ -155,17 +151,16 @@ public class HomeworkDatabase {
         ArrayList<Homework> result = new ArrayList<Homework>();
 
         try {
-            Cursor cursor = db.rawQuery("select DEADLINE, SUBJECTNAME, HOMEWORKNAME, DEADLINE_TIME, ALARM_TIME from " + TABLE_HOMEWORK, null);
+            Cursor cursor = db.rawQuery("select DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME from " + TABLE_HOMEWORK, null);
             for (int i = 0; i < cursor.getCount(); i++) {
                 int _id = i;
                 cursor.moveToNext();
                 String deadline = cursor.getString(0);
                 String subjectName = cursor.getString(1);
                 String homeworkName = cursor.getString(2);
-                String deadline_time = cursor.getString(3);
-                int alarm_time = cursor.getInt(4);
+                String alarm_time = cursor.getString(3);
 
-                Homework info = new Homework(_id, deadline, subjectName, homeworkName, deadline_time, alarm_time);
+                Homework info = new Homework(_id, deadline, subjectName, homeworkName, alarm_time);
                 result.add(info);
             }
 
