@@ -34,7 +34,8 @@ public class Fragment2 extends Fragment {
     EditText editText1, editText2;  // 과목명과 과제명을 입력하는 editText
     Button calendarButton, clockButton, addHomework, delete, close;
     CheckBox check1, check2, check3;
-    int checkBoxChecker = 0, alarmHour = 0, alarmMinute = 0;
+    int checkBoxChecker1, checkBoxChecker2, checkBoxChecker3;
+    int alarmHour = 0, alarmMinute = 0;
     OnDatabaseCallback onDatabaseCallback;
 
     Homework item;
@@ -114,7 +115,7 @@ public class Fragment2 extends Fragment {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
+                                clockButton.setText(hourOfDay + "시" + minute + "분");
                             }
                         }, alarmHour, alarmMinute, false);
                 timePickerDialog.show();
@@ -127,9 +128,10 @@ public class Fragment2 extends Fragment {
             public void onClick(View v) {
                 if (((CheckBox)v).isChecked()) {
                     // TODO : CheckBox is checked.
-                    checkBoxChecker = 1;
+                    checkBoxChecker1 = 1;
                 } else {
                     // TODO : CheckBox is unchecked.
+                    checkBoxChecker1 = 0;
                 }
             }
         });
@@ -140,9 +142,10 @@ public class Fragment2 extends Fragment {
             public void onClick(View v) {
                 if (((CheckBox)v).isChecked()) {
                     // TODO : CheckBox is checked.
-                    checkBoxChecker = 1;
+                    checkBoxChecker2 = 1;
                 } else {
                     // TODO : CheckBox is unchecked.
+                    checkBoxChecker2 = 0;
                 }
             }
         });
@@ -153,12 +156,15 @@ public class Fragment2 extends Fragment {
             public void onClick(View v) {
                 if (((CheckBox)v).isChecked()) {
                     // TODO : CheckBox is checked.
-                    checkBoxChecker = 1;
+                    checkBoxChecker3 = 1;
                 } else {
                     // TODO : CheckBox is unchecked.
+                    checkBoxChecker3 = 0;
                 }
             }
         });
+
+
 
         // 과제 추가 버튼
         addHomework.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +173,25 @@ public class Fragment2 extends Fragment {
                 String subjectName = editText1.getText().toString();
                 String homeworkName = editText2.getText().toString();
                 String deadline = calendarButton.getText().toString();
+                String deadline_time = clockButton.getText().toString();
+                int alarm_time = 0;
+
+                // checkBoxChecker에 따라 alarm_time 번호가 달라짐 -> 이후 알람 설정 시 alarm_time 변수 참고!
+                if (checkBoxChecker1 == 1 && checkBoxChecker2 == 1 && checkBoxChecker3 == 1) {
+                    alarm_time = 7;
+                } else if (checkBoxChecker1 == 1 && checkBoxChecker2 == 1 && checkBoxChecker3 == 0) {
+                    alarm_time = 6;
+                } else if (checkBoxChecker1 == 1 && checkBoxChecker2 == 0 && checkBoxChecker3 == 1) {
+                    alarm_time = 5;
+                } else if (checkBoxChecker1 == 1 && checkBoxChecker2 == 0 && checkBoxChecker3 == 0) {
+                    alarm_time = 4;
+                } else if (checkBoxChecker1 == 0 && checkBoxChecker2 == 1 && checkBoxChecker3 == 1) {
+                    alarm_time = 3;
+                } else if (checkBoxChecker1 == 0 && checkBoxChecker2 == 1 && checkBoxChecker3 == 0) {
+                    alarm_time = 2;
+                } else if (checkBoxChecker1 == 0 && checkBoxChecker2 == 0 && checkBoxChecker3 == 1) {
+                    alarm_time = 1;
+                }
 
                 if (subjectName.length() == 0) {
                     Toast.makeText(getContext(), "과목명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
@@ -174,12 +199,15 @@ public class Fragment2 extends Fragment {
                 else if (homeworkName.length() == 0) {
                     Toast.makeText(getContext(), "과제명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
                 }
+                else if (alarm_time == 0) {
+                    Toast.makeText(getContext(), "알람 시간을 다시 체크해주세요", Toast.LENGTH_LONG).show();
+                }
                 else {
                     Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_LONG).show();
                     //org.techtown.practice1.SecondFragment fragment2 = new org.techtown.practice1.SecondFragment();  // SecondFragment 선언
 
                     // 데이터 베이스에 레코드 삽입
-                    onDatabaseCallback.insert(deadline, subjectName, homeworkName);
+                    onDatabaseCallback.insert(deadline, subjectName, homeworkName, deadline_time, alarm_time);
 
                     // 화면 전환
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

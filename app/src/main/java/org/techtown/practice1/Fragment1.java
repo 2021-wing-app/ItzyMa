@@ -83,7 +83,7 @@ public class Fragment1 extends Fragment {
         adapter = new HomeworkAdapter();
         recyclerView.setAdapter(adapter);  // recyclerView에 어댑터 설정
 
-        // Adapter에 모든 아이템 셋팅(OnDatabaseCallback 인터페이스의 메서드 사용) -> 에러 발생
+        // Adapter에 모든 아이템 셋팅(OnDatabaseCallback 인터페이스의 메서드 사용)
         homeworkArrayList = onDatabaseCallback.selectAll();  // arrayList에 할당
         adapter.setItems(homeworkArrayList);
 

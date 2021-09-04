@@ -130,8 +130,8 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
 
 
     @Override
-    public void insert(String title, String author, String contents) {
-        homeworkDatabase.insertRecord(title, author, contents);
+    public void insert(String deadline, String subjectName, String homeworkName, String deadline_time, int alarm_time) {
+        homeworkDatabase.insertRecord(deadline, subjectName, homeworkName, deadline_time, alarm_time);
         Toast.makeText(getApplicationContext(), "추가 완료!", Toast.LENGTH_SHORT).show();
     }
 
