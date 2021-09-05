@@ -41,7 +41,6 @@ public class Fragment2 extends Fragment {
     Button addHomework, delete, close;  // 레코드 추가, 삭제, 그리고 창 닫기 버튼
     CheckBox check1, check2, check3;  // 과제 알림 시간 설정 체크 박스
     int checkBoxChecker1, checkBoxChecker2, checkBoxChecker3;
-    int alarmHour = 0, alarmMinute = 0;
 
     Homework item;
 
@@ -186,7 +185,6 @@ public class Fragment2 extends Fragment {
         });
 
 
-
         // 과제 추가 버튼
         addHomework.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,7 +259,7 @@ public class Fragment2 extends Fragment {
         String homeworkName = editText2.getText().toString();
         String deadline = calendarButton.getText().toString();
         String deadline_time = clockButton.getText().toString();
-        String alarm_time = "2021-09-06 10:08:00";
+        String alarm_time = deadline + " " + deadline_time;  // 형식: "2021-09-06 10:08"
 
         if (subjectName.length() == 0) {
             Toast.makeText(getContext(), "과목명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
