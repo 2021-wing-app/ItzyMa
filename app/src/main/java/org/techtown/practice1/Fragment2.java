@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,6 +32,7 @@ import java.util.Locale;
 
 public class Fragment2 extends Fragment {
     private static final String TAG = "Fragment2";
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
     int mMode = AppConstants.MODE_INSERT;
 
     Context context;
@@ -111,7 +113,7 @@ public class Fragment2 extends Fragment {
 
         Date currentTime = Calendar.getInstance().getTime();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            calendarButton.setText(new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(currentTime));
+            calendarButton.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentTime));
             clockButton.setText(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(currentTime));
         }
 
@@ -221,7 +223,7 @@ public class Fragment2 extends Fragment {
 
     // 날짜 형식 변경 함수
     public void changeDateFormat() {
-        String format = "YYYY/MM/dd";
+        String format = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             simpleDateFormat = new SimpleDateFormat(format, Locale.KOREA);
@@ -259,9 +261,21 @@ public class Fragment2 extends Fragment {
         else {
             Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_SHORT).show();
 
+            // date를 밀리초로 변환
+            long longDate = DateToMill(alarm_time);
+
+
             // 알람 설정
             //Toast.makeText(getContext(), alarm_time, Toast.LENGTH_SHORT).show();
-            ((MainActivity) getActivity()).setAlarm(alarm_time);
+            if (checkBoxChecker1 == 1) {  // 15minute before
+                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 900000));
+            }
+            if (checkBoxChecker2 == 1) {  // 1hour before
+                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 3600000));
+            }
+            if (checkBoxChecker3 == 1) {  // 1day before
+                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 86400000));
+            }
 
             String sql = "insert into " + HomeworkDatabase.TABLE_HOMEWORK +
                     "(DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME) values(" +
@@ -363,4 +377,27 @@ public class Fragment2 extends Fragment {
             editText2.setText(homeworkName);
         }
     }
+
+    // long형 시간을 String으로 변환.
+    public static String longTimeToDatetimeAsString(long resultTime)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+        String formatTime = dateFormat.format(resultTime);
+        return formatTime;
+    }
+
+    // String을 long형 시간으로 바꿈
+    public long DateToMill(String date) {
+        String pattern = DATE_FORMAT;
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        Date trans_date = null;
+        try {
+            trans_date = formatter.parse(date);
+        } catch (ParseException e) {
+            // TODO Auto-generated
+            e.printStackTrace();
+        }
+        return trans_date.getTime();
+    }
+
 }
