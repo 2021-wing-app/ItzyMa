@@ -1,10 +1,13 @@
 package org.techtown.practice1;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +19,14 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class Fragment2 extends Fragment {
@@ -32,12 +37,19 @@ public class Fragment2 extends Fragment {
     OnTabItemSelectedListener listener;
 
     EditText editText1, editText2;  // 과목명과 과제명을 입력하는 editText
-    Button calendarButton, clockButton, addHomework, delete, close;
-    CheckBox check1, check2, check3;
+    Button calendarButton, clockButton;
+    Button addHomework, delete, close;  // 레코드 추가, 삭제, 그리고 창 닫기 버튼
+    CheckBox check1, check2, check3;  // 과제 알림 시간 설정 체크 박스
     int checkBoxChecker1, checkBoxChecker2, checkBoxChecker3;
     int alarmHour = 0, alarmMinute = 0;
 
     Homework item;
+
+    // 알람 기능에 필요한 클래스 객체들
+    private AlarmManager alarmManager;
+    private GregorianCalendar mCalender;
+    private NotificationManager notificationManager;
+
 
     @Override
     public void onAttach(Context context) {
@@ -72,6 +84,15 @@ public class Fragment2 extends Fragment {
         }
     };
 
+    TimePickerDialog.OnTimeSetListener setTime = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
+            changeTimeFormat(); // 시간 형식 변환하는 함수
+        }
+    };
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,6 +108,13 @@ public class Fragment2 extends Fragment {
     }
 
     private void initUI(ViewGroup rootView) {
+
+        notificationManager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
+
+        alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        mCalender = new GregorianCalendar();
+
         editText1 = rootView.findViewById(R.id.editText1);
         editText2 = rootView.findViewById(R.id.editText2);
         calendarButton = rootView.findViewById(R.id.calendarButton);
@@ -97,7 +125,9 @@ public class Fragment2 extends Fragment {
         Date currentTime = Calendar.getInstance().getTime();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             calendarButton.setText(new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(currentTime));
+            clockButton.setText(new SimpleDateFormat("hh:mm", Locale.getDefault()).format(currentTime));
         }
+
 
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,14 +139,7 @@ public class Fragment2 extends Fragment {
         clockButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), android.R.style.Theme_Holo_Light_Dialog,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                clockButton.setText(hourOfDay + ":" + minute + ":00");
-                            }
-                        }, alarmHour, alarmMinute, false);
-                timePickerDialog.show();
+                new TimePickerDialog(getContext(), setTime, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), DateFormat.is24HourFormat(getContext())).show();
             }
         });
 
@@ -210,6 +233,7 @@ public class Fragment2 extends Fragment {
         });
     }
 
+    // 날짜 형식 변경 함수
     public void changeDateFormat() {
         String format = "YYYY/MM/dd";
         SimpleDateFormat simpleDateFormat = null;
@@ -217,6 +241,16 @@ public class Fragment2 extends Fragment {
             simpleDateFormat = new SimpleDateFormat(format, Locale.KOREA);
         }
         calendarButton.setText(simpleDateFormat.format(calendar.getTime()));
+    }
+
+    // 시간 형식 변경 함수
+    public void changeTimeFormat() {
+        String format = "HH:MM";
+        SimpleDateFormat simpleDateFormat = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            simpleDateFormat = new SimpleDateFormat(format, Locale.KOREA);
+        }
+        clockButton.setText(simpleDateFormat.format(calendar.getTime()));
     }
 
     /**
