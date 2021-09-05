@@ -118,8 +118,6 @@ public class HomeworkDatabase {
             } catch(Exception ex) {
                 Log.e(TAG, "Exception in CREATE_SQL", ex);  // SQL문 실행하기
             }
-
-            // insertRecord(_db, "10월 1일", "수학", "연습문제");
         }
 
         public void onOpen(SQLiteDatabase db) {
@@ -129,54 +127,7 @@ public class HomeworkDatabase {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             println("Upgrading database from version " + oldVersion + " to " + newVersion + ".");
         }
-
-        private void insertRecord(SQLiteDatabase _db, String deadline, String subjectName, String homeworkName, String alarm_time) {
-            try {
-                _db.execSQL( "insert into " + TABLE_HOMEWORK + "(DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME) values ('" + deadline + "', '" + subjectName + "', '" + homeworkName + "', '" + alarm_time + "');" );
-            } catch(Exception ex) {
-                Log.e(TAG, "Exception in executing insert SQL.", ex);
-            }
-        }
     }
-
-    // 나중에 없애도 될 듯
-    /*
-    public void insertRecord(String deadline, String subjectName, String homeworkName, String alarm_time) {
-        try {
-            db.execSQL( "insert into " + TABLE_HOMEWORK + "(DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME) values ('" + deadline + "', '" + subjectName + "', '" + homeworkName + "', '" + alarm_time + "');" );
-        } catch(Exception ex) {
-            Log.e(TAG, "Exception in executing insert SQL.", ex);
-        }
-    }
-
-     */
-    /*
-    // 나중에 없애도 될 듯
-    public ArrayList<Homework> selectAll() {
-        ArrayList<Homework> result = new ArrayList<Homework>();
-
-        try {
-            Cursor cursor = db.rawQuery("select DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME from " + TABLE_HOMEWORK, null);
-            for (int i = 0; i < cursor.getCount(); i++) {
-                int _id = i;
-                cursor.moveToNext();
-                String deadline = cursor.getString(0);
-                String subjectName = cursor.getString(1);
-                String homeworkName = cursor.getString(2);
-                String alarm_time = cursor.getString(3);
-
-                Homework info = new Homework(_id, deadline, subjectName, homeworkName, alarm_time);
-                result.add(info);
-            }
-
-        } catch(Exception ex) {
-            Log.e(TAG, "Exception in executing insert SQL.", ex);
-        }
-
-        return result;
-    }
-
-     */
 
     private void println(String msg) {
         Log.d(TAG, msg);

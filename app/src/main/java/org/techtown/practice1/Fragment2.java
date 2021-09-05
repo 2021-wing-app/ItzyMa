@@ -219,36 +219,6 @@ public class Fragment2 extends Fragment {
         calendarButton.setText(simpleDateFormat.format(calendar.getTime()));
     }
 
-    /*
-
-    String subjectName = editText1.getText().toString();
-                String homeworkName = editText2.getText().toString();
-                String deadline = calendarButton.getText().toString();
-                String deadline_time = clockButton.getText().toString();
-
-
-                if (subjectName.length() == 0) {
-                    Toast.makeText(getContext(), "과목명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
-                }
-                else if (homeworkName.length() == 0) {
-                    Toast.makeText(getContext(), "과제명을 다시 입력해주세요", Toast.LENGTH_LONG).show();
-                }
-
-                else {
-        Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_LONG).show();
-        //org.techtown.practice1.SecondFragment fragment2 = new org.techtown.practice1.SecondFragment();  // SecondFragment 선언
-
-        // 임시 조치 (수정 요함)
-        String alarm_time = "2021-09-05 01:35:00";
-
-        // 데이터 베이스에 레코드 삽입
-        onDatabaseCallback.insert(deadline, subjectName, homeworkName, alarm_time);
-
-    }
-
-     */
-
-
     /**
      * 데이터베이스 레코드 추가
      */
@@ -318,7 +288,6 @@ public class Fragment2 extends Fragment {
             String sql = "delete from " + HomeworkDatabase.TABLE_HOMEWORK +
                     " where " +
                     "   _id = " + item._id;
-
             Log.d(TAG, "sql : " + sql);
             HomeworkDatabase database = HomeworkDatabase.getInstance(context);
             database.execSQL(sql);
@@ -335,7 +304,7 @@ public class Fragment2 extends Fragment {
         if (item != null) {
             mMode = AppConstants.MODE_MODIFY;
 
-            setDeadline(item.deadline);
+            //setDeadline("날짜");
             setHomeworkName(item.homeworkName);
             setSubjectName(item.subjectName);
 
