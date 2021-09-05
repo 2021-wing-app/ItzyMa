@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
                 finishAffinity();
             }
         });
-        alert_ex.setTitle("훌륭히 해내시리라 믿고있어요 :)");
+        alert_ex.setTitle("과제 파이팅하세요!");
         AlertDialog alert = alert_ex.create();
         alert.show();
 

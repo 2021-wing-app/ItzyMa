@@ -17,8 +17,11 @@
         android:layout_marginStart="39dp"
         android:layout_marginLeft="39dp"
         android:layout_marginTop="45dp"
-        android:text="과제 추가"
-        app:backgroundTint="@android:color/holo_orange_dark" />
+        android:fontFamily="@font/godo_b"
+        android:text="+ 과제 추가"
+        android:textSize="36dp"
+        android:textColor="#545454"
+        app:backgroundTint="@color/color_add_assignment" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

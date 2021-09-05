@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 툴바 박스 디자인 -->
+    <style name="ToolBar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColor">@color/black</item>
+        <item name="backgroundColor">@color/color_toolbar</item>
+    </style>
+
+
 </resources>
