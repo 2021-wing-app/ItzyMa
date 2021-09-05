@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import org.techtown.practice1.MainActivity;
 
 public class Fragment2 extends Fragment {
     private static final String TAG = "Fragment2";
@@ -196,6 +197,7 @@ public class Fragment2 extends Fragment {
             @Override
             public void onClick(View v) {
                 deleteNote();
+                ((MainActivity)MainActivity.Context).removeNotification();
 
                 // 화면 전환
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

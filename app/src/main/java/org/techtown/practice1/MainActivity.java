@@ -2,6 +2,7 @@ package org.techtown.practice1;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,7 +18,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
-import android.content.Context;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,15 +33,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.techtown.practice1.AlarmReceiver;
+
 public class MainActivity extends AppCompatActivity implements OnTabItemSelectedListener {
     private static final String TAG = "MainActivity";
 
     Toolbar toolbar;
 
+    static int i;
+    public static Context Context;
+
     Fragment1 fragment1;
     Fragment2 fragment2;
 
     HomeworkDatabase homeworkDatabase;
+    PendingIntent pendingIntent;
 
     // 알람 기능에 필요한 클래스 객체들
     private AlarmManager alarmManager;
@@ -79,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
+        Context = this;
         mCalender = new GregorianCalendar();
 
         toolbar = findViewById(R.id.toolbar);
@@ -159,10 +165,15 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
     }
 
     public void setAlarm(String form) {
+        //0905 19:47 지연 수정
         //AlarmReceiver에 값 전달
-        Intent receiverIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, receiverIntent, 0);
+        ArrayList <PendingIntent> intentArray = new ArrayList<PendingIntent>();
 
+        for(i=0; i<10; ++i){
+            Intent receiverintent = new  Intent(MainActivity.this,AlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,i,receiverintent,0);
+            intentArray.add(pendingIntent);
+        }
 
         //String yeah = "2021-09-05 17:50"; //임의로 날짜와 시간을 지정
 
@@ -181,5 +192,9 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
         calendar.setTime(dateTime);
 
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(),pendingIntent);
+    }
+
+    public void removeNotification(){
+        NotificationManagerCompat.from(this).cancel(i);
     }
 }
