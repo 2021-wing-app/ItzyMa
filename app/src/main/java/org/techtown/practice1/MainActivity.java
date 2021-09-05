@@ -135,6 +135,23 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
         }
     }
 
+<<<<<<< Updated upstream
+=======
+
+    @Override
+    public void insert(String deadline, String subjectName, String homeworkName, String alarm_time) {
+        homeworkDatabase.insertRecord(deadline, subjectName, homeworkName, alarm_time);
+        Toast.makeText(getApplicationContext(), "추가 완료!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public ArrayList<Homework> selectAll() {
+        ArrayList<Homework> homeworkArrayList = homeworkDatabase.selectAll();
+        Toast.makeText(getApplicationContext(), "조회 완료!", Toast.LENGTH_SHORT).show();
+        return homeworkArrayList;
+    }
+
+>>>>>>> Stashed changes
     @Override
     public void showFragment2(Homework item) {
 
