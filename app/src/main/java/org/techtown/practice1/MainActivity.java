@@ -163,19 +163,22 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
         Intent receiverIntent = new Intent(MainActivity.this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, receiverIntent, 0);
 
-        String yeah = "2021-09-05 15:28"; //임의로 날짜와 시간을 지정
 
-        //날짜 포맷을 바꿔주는 소스코드
+        //String yeah = "2021-09-05 17:50"; //임의로 날짜와 시간을 지정
+
+        Toast.makeText(getApplicationContext(), form, Toast.LENGTH_LONG).show();
+
+        //날짜 포맷을 바꿔주는 소스 코드
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Date datetime = null;
+        Date dateTime = null;
         try {
-            datetime = dateFormat.parse(form);
+            dateTime = dateFormat.parse(form);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(datetime);
+        calendar.setTime(dateTime);
 
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(),pendingIntent);
     }

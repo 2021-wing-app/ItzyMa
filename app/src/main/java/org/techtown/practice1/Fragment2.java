@@ -112,7 +112,7 @@ public class Fragment2 extends Fragment {
         Date currentTime = Calendar.getInstance().getTime();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             calendarButton.setText(new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault()).format(currentTime));
-            clockButton.setText(new SimpleDateFormat("hh:mm", Locale.getDefault()).format(currentTime));
+            clockButton.setText(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(currentTime));
         }
 
 
@@ -231,7 +231,7 @@ public class Fragment2 extends Fragment {
 
     // 시간 형식 변경 함수
     public void changeTimeFormat() {
-        String format = "HH:MM";
+        String format = "HH:mm";
         SimpleDateFormat simpleDateFormat = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             simpleDateFormat = new SimpleDateFormat(format, Locale.KOREA);
@@ -260,7 +260,7 @@ public class Fragment2 extends Fragment {
             Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_SHORT).show();
 
             // 알람 설정
-            Toast.makeText(getContext(), alarm_time, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), alarm_time, Toast.LENGTH_SHORT).show();
             ((MainActivity) getActivity()).setAlarm(alarm_time);
 
             String sql = "insert into " + HomeworkDatabase.TABLE_HOMEWORK +
