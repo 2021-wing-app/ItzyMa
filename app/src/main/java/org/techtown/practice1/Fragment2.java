@@ -44,12 +44,6 @@ public class Fragment2 extends Fragment {
 
     Homework item;
 
-    // 알람 기능에 필요한 클래스 객체들
-    private AlarmManager alarmManager;
-    private GregorianCalendar mCalender;
-    private NotificationManager notificationManager;
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -107,12 +101,6 @@ public class Fragment2 extends Fragment {
     }
 
     private void initUI(ViewGroup rootView) {
-
-        notificationManager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
-
-        alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        mCalender = new GregorianCalendar();
 
         editText1 = rootView.findViewById(R.id.editText1);
         editText2 = rootView.findViewById(R.id.editText2);
@@ -270,6 +258,10 @@ public class Fragment2 extends Fragment {
 
         else {
             Toast.makeText(getContext(), "과제 등록 완료", Toast.LENGTH_SHORT).show();
+
+            // 알람 설정
+            Toast.makeText(getContext(), alarm_time, Toast.LENGTH_SHORT).show();
+            ((MainActivity) getActivity()).setAlarm(alarm_time);
 
             String sql = "insert into " + HomeworkDatabase.TABLE_HOMEWORK +
                     "(DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME) values(" +
