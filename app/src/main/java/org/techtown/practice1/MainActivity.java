@@ -28,7 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements OnTabItemSelectedListener, OnDatabaseCallback {
+public class MainActivity extends AppCompatActivity implements OnTabItemSelectedListener {
     private static final String TAG = "MainActivity";
 
     Toolbar toolbar;
@@ -41,6 +41,29 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
     BroadcastReceiver br;
     PendingIntent pending_intent;
     Context context;
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alert_ex = new AlertDialog.Builder(this);
+        alert_ex.setMessage("정말로 종료하시겠습니까?");
+
+        alert_ex.setPositiveButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert_ex.setNegativeButton("종료", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finishAffinity();
+            }
+        });
+        alert_ex.setTitle("훌륭히 해내시리라 믿고있어요 :)");
+        AlertDialog alert = alert_ex.create();
+        alert.show();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,20 +158,6 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
             homeworkDatabase.close();
             homeworkDatabase = null;
         }
-    }
-
-
-    @Override
-    public void insert(String deadline, String subjectName, String homeworkName, String alarm_time) {
-        homeworkDatabase.insertRecord(deadline, subjectName, homeworkName, alarm_time);
-        Toast.makeText(getApplicationContext(), "추가 완료!", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public ArrayList<Homework> selectAll() {
-        ArrayList<Homework> homeworkArrayList = homeworkDatabase.selectAll();
-        Toast.makeText(getApplicationContext(), "조회 완료!", Toast.LENGTH_SHORT).show();
-        return homeworkArrayList;
     }
 
     @Override

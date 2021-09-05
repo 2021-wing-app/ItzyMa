@@ -36,14 +36,12 @@ public class Fragment2 extends Fragment {
     CheckBox check1, check2, check3;
     int checkBoxChecker1, checkBoxChecker2, checkBoxChecker3;
     int alarmHour = 0, alarmMinute = 0;
-    OnDatabaseCallback onDatabaseCallback;
 
     Homework item;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        onDatabaseCallback = (OnDatabaseCallback) getActivity();
 
         this.context = context;
 
@@ -281,7 +279,6 @@ public class Fragment2 extends Fragment {
             Log.d(TAG, "sql : " + sql);
             HomeworkDatabase database = HomeworkDatabase.getInstance(context);
             database.execSQL(sql);
-
         }
     }
 
