@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_green">#64DD17</color>
     <color name="color_toolbar">#EBE2FF</color>
-    <color name="color_list">#F3ECD7</color>
+    <color name="postit">#F3ECD7</color>
     <color name="color_edit_list">#F6F2FE</color>
     <color name="color_add_assignment">#C4C4C4</color>
     <color name="transparent">#00000000</color>
