@@ -17,7 +17,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/cardview_dark_background"
+                android:background="@color/color_toolbar"
                 android:elevation="1dp"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
@@ -26,6 +26,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="과제 딩동"
+                    android:fontFamily="@font/song_myung_regular"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:textSize="64dp"
+                    android:padding="13dp"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
 
                 </TextView>
@@ -37,7 +42,7 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/holo_orange_dark"
+                android:background="@android:color/white"
                 android:elevation="1dp"
                 app:tabGravity="fill"
                 app:tabMode="fixed"
