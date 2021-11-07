@@ -105,7 +105,7 @@ public class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHo
         }
 
         public void setItem(Homework item) {
-            textView.setText(item.getDeadline());
+            textView.setText(item.getDeadline()+" 까지");
             textView2.setText(item.getSubjectName());
             textView3.setText(item.getHomeworkName());
         }

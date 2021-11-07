@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="제출 기한"
+                android:fontFamily="@font/godo_m"
                 android:textSize="20sp" />
 
             <LinearLayout
@@ -39,6 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="과목명"
+                    android:fontFamily="@font/godo_b"
                     android:textSize="20sp" />
 
                 <TextView
@@ -53,6 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="과제명"
+                    android:fontFamily="@font/godo_m"
                     android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>

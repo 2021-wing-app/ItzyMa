@@ -56,7 +56,7 @@ public class Homework {
     @Override
     public String toString() {
         return "Homework{" +
-                " deadline='" + deadline + '\'' +
+                " deadline='" + deadline  + '\'' +
                 ", subjectName='" + subjectName + '\'' +
                 ", homeworkName='" + homeworkName + '\'' +
                 '}';
