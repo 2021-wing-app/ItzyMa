@@ -35,11 +35,11 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="-2dp"
-        android:layout_marginLeft="-2dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
         android:layout_marginTop="21dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginBottom="0dp" />
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="-1dp" />
 
 </RelativeLayout>
