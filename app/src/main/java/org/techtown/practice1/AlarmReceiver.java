@@ -46,7 +46,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, MainActivity.i, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // 알림창 제목
-            builder.setContentTitle("알람");
+            builder.setContentTitle("과제 하자!");
             // 알림창 아이콘
             builder.setSmallIcon(R.drawable.ic_launcher_background);
             // 알림창 터치시 자동 삭제

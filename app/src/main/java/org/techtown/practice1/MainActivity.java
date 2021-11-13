@@ -154,10 +154,15 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
     }
 
     @Override
-    public void showFragment2(Homework item) {
+    public void showFragment2(Homework item, int pos) {
 
         fragment2 = new Fragment2();
         fragment2.setItem(item);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("pos", pos); // Key, Value
+
+        fragment2.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment2).commit();
@@ -190,7 +195,19 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
         i++;  // i 값을 1 증가
     }
 
-    public void removeNotification(){
-        NotificationManagerCompat.from(this).cancel(i);
+    public void removeNotification(int pos){
+
+        AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent sender = PendingIntent.getBroadcast(this, pos+1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (sender != null) {
+            am.cancel(sender);
+            sender.cancel();
+        }
+
+        Toast.makeText(getApplicationContext(), pos+"", Toast.LENGTH_LONG).show();
+
+        // NotificationManagerCompat.from(this).cancel(pos+1);
+        //notificationManager.cancel(pos+1); // cancel(알림 특정 id)
     }
 }

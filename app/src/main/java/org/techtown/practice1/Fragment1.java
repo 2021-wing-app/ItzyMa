@@ -94,7 +94,7 @@ public class Fragment1 extends Fragment {
                 Log.d(TAG, "아이템 선택됨 : " + item.get_id());
 
                 if (listener != null) {
-                    listener.showFragment2(item);
+                    listener.showFragment2(item, position);
                 }
             }
         });

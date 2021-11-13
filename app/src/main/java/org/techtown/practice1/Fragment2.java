@@ -47,6 +47,8 @@ public class Fragment2 extends Fragment {
 
     Homework item;
 
+    int pos = 0;  // 알람 삭제를 위한 position 변수
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -105,6 +107,10 @@ public class Fragment2 extends Fragment {
 
     private void initUI(ViewGroup rootView) {
 
+        if (getArguments() != null) {
+            pos = getArguments().getInt("pos");  // 전달한 key 값
+        }
+
         editText1 = rootView.findViewById(R.id.editText1);
         editText2 = rootView.findViewById(R.id.editText2);
         calendarButton = rootView.findViewById(R.id.calendarButton);
@@ -117,7 +123,6 @@ public class Fragment2 extends Fragment {
             calendarButton.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentTime));
             clockButton.setText(new SimpleDateFormat("HH:mm", Locale.getDefault()).format(currentTime));
         }
-
 
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +180,6 @@ public class Fragment2 extends Fragment {
             }
         });
 
-
         // 과제 추가 버튼
         addHomework.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,8 +202,10 @@ public class Fragment2 extends Fragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 데이터 베이스에서 삭제
                 deleteNote();
-                ((MainActivity)MainActivity.Context).removeNotification();
+                // 알람 삭제
+                ((MainActivity)MainActivity.Context).removeNotification(pos);
 
                 // 화면 전환
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
