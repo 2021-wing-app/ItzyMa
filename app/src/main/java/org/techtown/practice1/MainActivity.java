@@ -169,6 +169,8 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
 
     }
 
+
+
     public void setAlarm(String form) {
         //AlarmReceiver에 값 전달
         Intent receiverIntent = new Intent(MainActivity.this, AlarmReceiver.class);
