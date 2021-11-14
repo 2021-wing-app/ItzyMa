@@ -47,7 +47,7 @@ public class Fragment2 extends Fragment {
 
     Homework item;
 
-    public static int id = 0; // 알람 삭제를 위한 id 변수
+    int frag2_id;
     //int pos = 0;  // 알람 삭제를 위한 position 변수
 
     @Override
@@ -111,10 +111,9 @@ public class Fragment2 extends Fragment {
         if (getArguments() != null) {
             id = getArguments().getInt("pos");  // 전달한 key 값
         }
-
          */
         if (getArguments() != null) {
-            id = getArguments().getInt("id");  // 전달한 key 값
+            frag2_id = getArguments().getInt("id");  // 전달한 key 값
         }
 
         editText1 = rootView.findViewById(R.id.editText1);
@@ -212,7 +211,7 @@ public class Fragment2 extends Fragment {
                 // 데이터 베이스에서 삭제
                 deleteNote();
                 // 알람 삭제(id로)
-                ((MainActivity)MainActivity.Context).removeNotification(id);
+                ((MainActivity)MainActivity.Context).removeNotification(frag2_id);
 
 
                 /*
@@ -291,13 +290,13 @@ public class Fragment2 extends Fragment {
             // 알람 설정
             //Toast.makeText(getContext(), alarm_time, Toast.LENGTH_SHORT).show();
             if (checkBoxChecker1 == 1) {  // 15minute before
-                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 900000), id);
+                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 900000), frag2_id);
             }
             if (checkBoxChecker2 == 1) {  // 1hour before
-                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 3600000), id);
+                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 3600000), frag2_id);
             }
             if (checkBoxChecker3 == 1) {  // 1day before
-                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 86400000), id);
+                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 86400000), frag2_id);
             }
 
             String sql = "insert into " + HomeworkDatabase.TABLE_HOMEWORK +
@@ -306,7 +305,7 @@ public class Fragment2 extends Fragment {
                     "'"+ subjectName + "', " +
                     "'"+ homeworkName + "', " +
                     "'"+ alarm_time + "', " +
-                    "'"+ id + "')";
+                    "'"+ frag2_id + "')";
             Log.d(TAG, "sql : " + sql);
             HomeworkDatabase database = HomeworkDatabase.getInstance(context);
             database.execSQL(sql);

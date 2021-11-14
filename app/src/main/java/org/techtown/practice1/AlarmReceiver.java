@@ -42,7 +42,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             // 알림창 클릭 시 activity 화면 부름
             Intent intent2 = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, Fragment2.id, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, Fragment1.id, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // 알림창 제목
             builder.setContentTitle("과제 하자!");
@@ -54,7 +54,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             builder.setContentIntent(pendingIntent);
 
             Notification notification = builder.build();
-            manager.notify(Fragment2.id, notification);
+            manager.notify(Fragment1.id, notification);
     }
 }
 
