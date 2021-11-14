@@ -47,7 +47,8 @@ public class Fragment2 extends Fragment {
 
     Homework item;
 
-    int pos = 0;  // 알람 삭제를 위한 position 변수
+    public static int id = 0; // 알람 삭제를 위한 id 변수
+    //int pos = 0;  // 알람 삭제를 위한 position 변수
 
     @Override
     public void onAttach(Context context) {
@@ -106,9 +107,14 @@ public class Fragment2 extends Fragment {
     }
 
     private void initUI(ViewGroup rootView) {
-
+        /*
         if (getArguments() != null) {
-            pos = getArguments().getInt("pos");  // 전달한 key 값
+            id = getArguments().getInt("pos");  // 전달한 key 값
+        }
+
+         */
+        if (getArguments() != null) {
+            id = getArguments().getInt("id");  // 전달한 key 값
         }
 
         editText1 = rootView.findViewById(R.id.editText1);
@@ -202,10 +208,18 @@ public class Fragment2 extends Fragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // 데이터 베이스에서 삭제
                 deleteNote();
-                // 알람 삭제
-                ((MainActivity)MainActivity.Context).removeNotification(pos);
+                // 알람 삭제(id로)
+                ((MainActivity)MainActivity.Context).removeNotification(id);
+
+
+                /*
+                if (getArguments() != null) {
+                    pos = getArguments().getInt("pos");  // 전달한 key 값
+                }
+                 */
 
                 // 화면 전환
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -273,16 +287,17 @@ public class Fragment2 extends Fragment {
             long longDate = DateToMill(alarm_time);
 
 
+
             // 알람 설정
             //Toast.makeText(getContext(), alarm_time, Toast.LENGTH_SHORT).show();
             if (checkBoxChecker1 == 1) {  // 15minute before
-                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 900000));
+                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 900000), id);
             }
             if (checkBoxChecker2 == 1) {  // 1hour before
-                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 3600000));
+                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 3600000), id);
             }
             if (checkBoxChecker3 == 1) {  // 1day before
-                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 86400000));
+                ((MainActivity) getActivity()).setAlarm(longTimeToDatetimeAsString(longDate - 86400000), id);
             }
 
             String sql = "insert into " + HomeworkDatabase.TABLE_HOMEWORK +
@@ -290,8 +305,8 @@ public class Fragment2 extends Fragment {
                     "'"+ deadline + "', " +
                     "'"+ subjectName + "', " +
                     "'"+ homeworkName + "', " +
-                    "'"+ alarm_time + "')";
-
+                    "'"+ alarm_time + "', " +
+                    "'"+ id + "')";
             Log.d(TAG, "sql : " + sql);
             HomeworkDatabase database = HomeworkDatabase.getInstance(context);
             database.execSQL(sql);
@@ -337,6 +352,27 @@ public class Fragment2 extends Fragment {
             Log.d(TAG, "sql : " + sql);
             HomeworkDatabase database = HomeworkDatabase.getInstance(context);
             database.execSQL(sql);
+        }
+    }
+
+    /*
+    // 레코드 읽기
+    private void selectNote() {
+        if (item != null) {
+            // read note
+            String sql = "select from " + HomeworkDatabase.TABLE_HOMEWORK +
+                    " where " +
+                    "   _id = " + item._id;
+            id = item._id;
+            Log.d(TAG, "sql : " + sql);
+            HomeworkDatabase database = HomeworkDatabase.getInstance(context);
+            database.execSQL(sql);
+        }
+    }
+    */
+
+    public void getNoteID() {
+        if (item != null) {
         }
     }
 

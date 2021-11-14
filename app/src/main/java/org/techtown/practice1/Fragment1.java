@@ -71,14 +71,21 @@ public class Fragment1 extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        addButton = rootView.findViewById(R.id.addButton);
+        addButton = rootView.findViewById(R.id.addButton); // addButton을 눌렀을 때 id 생성
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+                Bundle bundle = new Bundle(); // 번들을 통해 값 전달
+                bundle.putInt("id", Fragment2.id); //번들에 넘길 값 저장
+
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 Fragment2 fragment2 = new Fragment2();
+                fragment2.setArguments(bundle); //번들을 프래그먼트2로 보낼 준비
                 transaction.replace(R.id.container, fragment2);
                 transaction.commit();
+                Fragment2.id++; // id 1증가
             }
         });
 
@@ -90,11 +97,12 @@ public class Fragment1 extends Fragment {
             @Override
             public void onItemClick(HomeworkAdapter.ViewHolder holder, View view, int position) {
                 Homework item = adapter.getItem(position);
+                int _ID = item.get_ID();
 
                 Log.d(TAG, "아이템 선택됨 : " + item.get_id());
 
                 if (listener != null) {
-                    listener.showFragment2(item, position);
+                    listener.showFragment2(item, _ID);
                 }
             }
         });
@@ -106,7 +114,7 @@ public class Fragment1 extends Fragment {
     public int loadHomeworkListData() {
         AppConstants.println("loadHomeworkListData called.");
 
-        String sql = "select _id, DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME from " + HomeworkDatabase.TABLE_HOMEWORK;
+        String sql = "select _id, DEADLINE, SUBJECTNAME, HOMEWORKNAME, ALARM_TIME, ID from " + HomeworkDatabase.TABLE_HOMEWORK;
 
         int recordCount = -1;
         HomeworkDatabase database = HomeworkDatabase.getInstance(context);
@@ -126,11 +134,12 @@ public class Fragment1 extends Fragment {
                 String subjectName = outCursor.getString(2);
                 String homeworkName = outCursor.getString(3);
                 String alarm_time = outCursor.getString(4);
+                int ID = outCursor.getInt(5);
 
                 AppConstants.println("#" + i + " -> " + _id + ", " + deadline + ", " +
                         subjectName + ", " + homeworkName + ", " + alarm_time);
 
-                items.add(new Homework(_id, deadline, subjectName, homeworkName, alarm_time));
+                items.add(new Homework(_id, deadline, subjectName, homeworkName, alarm_time, ID));
             }
 
             outCursor.close();

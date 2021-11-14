@@ -6,13 +6,15 @@ public class Homework {
     String subjectName;
     String homeworkName;
     String alarm_time;
+    int ID; // 이건 addButton을 통해 생성된 아이디를 의미
 
-    public Homework(int _id, String deadline, String subjectName, String homeworkName, String alarm_time) {
+    public Homework(int _id, String deadline, String subjectName, String homeworkName, String alarm_time, int ID) {
         this._id = _id;
         this.deadline = deadline;
         this.subjectName = subjectName;
         this.homeworkName = homeworkName;
         this.alarm_time = alarm_time;
+        this.ID = ID;
     }
 
     public int get_id() {
@@ -52,6 +54,10 @@ public class Homework {
     public void setAlarm_time(String alarm_time) {
         this.alarm_time = alarm_time;
     }
+
+    public int get_ID() { return ID; }
+
+    public void set_ID(int ID) { this.ID = ID; }
 
     @Override
     public String toString() {

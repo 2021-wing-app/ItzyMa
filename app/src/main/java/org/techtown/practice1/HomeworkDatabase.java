@@ -112,7 +112,8 @@ public class HomeworkDatabase {
                     + "  DEADLINE TEXT, "
                     + "  SUBJECTNAME TEXT, "
                     + "  HOMEWORKNAME TEXT, "
-                    + "  ALARM_TIME TEXT" + ")";
+                    + "  ALARM_TIME TEXT, "
+                    + "  ID INTEGER" + ")";
             try {
                 _db.execSQL(CREATE_SQL);
             } catch(Exception ex) {

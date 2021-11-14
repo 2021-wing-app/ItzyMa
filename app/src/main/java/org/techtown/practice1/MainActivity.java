@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
 
     Toolbar toolbar;
 
-    static int i = 1;
+    //static int i = 1;
+
     public static Context Context;
 
     Fragment1 fragment1;
@@ -154,13 +155,13 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
     }
 
     @Override
-    public void showFragment2(Homework item, int pos) {
+    public void showFragment2(Homework item, int ID) {
 
         fragment2 = new Fragment2();
         fragment2.setItem(item);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("pos", pos); // Key, Value
+        bundle.putInt("id", ID); // Key, Value
 
         fragment2.setArguments(bundle);
 
@@ -171,14 +172,14 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
 
 
 
-    public void setAlarm(String form) {
+    public void setAlarm(String form, int id) {
         //AlarmReceiver에 값 전달
         Intent receiverIntent = new Intent(MainActivity.this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, i, receiverIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, id, receiverIntent, 0);
 
         //String yeah = "2021-09-05 17:50"; //임의로 날짜와 시간을 지정
 
-        Toast.makeText(getApplicationContext(), form, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), form, Toast.LENGTH_SHORT).show();
 
         //날짜 포맷을 바꿔주는 소스 코드
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -194,20 +195,22 @@ public class MainActivity extends AppCompatActivity implements OnTabItemSelected
 
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(),pendingIntent);
 
-        i++;  // i 값을 1 증가
+        Toast.makeText(getApplicationContext(), id+"", Toast.LENGTH_SHORT).show();
+
+        //i++;  // i 값을 1 증가
     }
 
-    public void removeNotification(int pos){
+    public void removeNotification(int id){
 
         AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent sender = PendingIntent.getBroadcast(this, pos+1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent sender = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         if (sender != null) {
             am.cancel(sender);
             sender.cancel();
         }
 
-        Toast.makeText(getApplicationContext(), pos+"", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), id+"", Toast.LENGTH_LONG).show();
 
         // NotificationManagerCompat.from(this).cancel(pos+1);
         //notificationManager.cancel(pos+1); // cancel(알림 특정 id)

@@ -25,7 +25,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     private static String CHANNEL_ID = "channel1";
     private static String CHANNEL_NAME = "Channel1";
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -43,7 +42,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             // 알림창 클릭 시 activity 화면 부름
             Intent intent2 = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, MainActivity.i, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, Fragment2.id, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // 알림창 제목
             builder.setContentTitle("과제 하자!");
@@ -55,7 +54,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             builder.setContentIntent(pendingIntent);
 
             Notification notification = builder.build();
-            manager.notify(MainActivity.i, notification);
-        }
+            manager.notify(Fragment2.id, notification);
     }
+}
 
