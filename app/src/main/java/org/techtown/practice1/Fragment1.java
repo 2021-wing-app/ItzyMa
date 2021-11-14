@@ -77,12 +77,12 @@ public class Fragment1 extends Fragment {
             public void onClick(View v) {
 
 
-                Bundle bundle = new Bundle(); // 번들을 통해 값 전달
-                bundle.putInt("id", Fragment2.id); //번들에 넘길 값 저장
+                // Bundle bundle = new Bundle(); // 번들을 통해 값 전달
+                // bundle.putInt("id", Fragment2.id); //번들에 넘길 값 저장
 
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 Fragment2 fragment2 = new Fragment2();
-                fragment2.setArguments(bundle); //번들을 프래그먼트2로 보낼 준비
+                // fragment2.setArguments(bundle); //번들을 프래그먼트2로 보낼 준비
                 transaction.replace(R.id.container, fragment2);
                 transaction.commit();
                 Fragment2.id++; // id 1증가
